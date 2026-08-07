@@ -1,0 +1,992 @@
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Clapperboard,
+  Cpu,
+  Mail,
+  MapPin,
+  Palette,
+  Pause,
+  Phone,
+  Play,
+  Plus,
+  Target,
+  Upload,
+  X,
+} from "lucide-react";
+import "./styles.css";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const CONTACT_EMAIL = "1622764597@qq.com";
+const CONTACT_PHONE = "13556676096";
+const PROJECT_FRAME_WIDTH = 1280;
+const PROJECT_FRAME_HEIGHT = 720;
+
+const navItems = [
+  { label: "个人经历", href: "#experience" },
+  { label: "精选项目", href: "#projects" },
+  { label: "个人优势", href: "#strengths" },
+];
+
+const stats = [
+  { value: "6+", label: "年行业经验", sub: "YEARS EXPERIENCE" },
+  { value: "10+", label: "游戏项目", sub: "GAME PROJECTS" },
+  { value: "#1", suffix: "×2", label: "海贼王素材", sub: "SPEND RANKING" },
+  { value: "8", label: "全球地区", sub: "GLOBAL MARKETS" },
+];
+
+const jobs = [
+  {
+    period: "2025.05 - NOW",
+    company: "伦奇信息",
+    role: "海外视频设计师",
+    detail:
+      "负责《海贼王》《帝王》《放置少女》等项目，从创意方向、分镜设计到剪辑、包装、合成与交付，独立推进完整制作闭环。",
+  },
+  {
+    period: "2023.12 - 2025.03",
+    company: "玩咖欢聚",
+    role: "游戏视频设计师",
+    detail:
+      "服务《寻道大千》《御业》《重返未来：1999》《女神异闻录》等项目，覆盖二次元、写实、国风与休闲题材。",
+  },
+  {
+    period: "2020.06 - 2023.10",
+    company: "350 游戏",
+    role: "海外视频设计师",
+    detail:
+      "负责《龙族》《火影》等海外平面与视频广告，将产品卖点转化为创意内容，服务港澳台、欧美投放市场。",
+  },
+];
+
+const initialProjects = [
+  {
+    title: "海贼王",
+    type: "海外买量创意系列",
+    poster: "/assets/project-layout-reference.png",
+    tag: "消耗排行 TOP 1 × 2",
+    desc: "围绕角色卖点和节奏记忆点制作高转化视频素材，支撑重点地区投放。",
+  },
+  {
+    title: "寻道大千",
+    type: "国风游戏广告",
+    poster: "/assets/project-02.png",
+    tag: "STYLE / MOTION",
+    desc: "将国风视觉、轻剧情节奏与素材包装结合，快速完成多版本创意测试。",
+  },
+  {
+    title: "AI 视觉实验",
+    type: "AI Design System",
+    poster: "/assets/strength-visual.png",
+    tag: "AI-POWERED",
+    desc: "使用 AI 工具拓展视觉探索、角色风格和镜头方案，提高前期创意效率。",
+  },
+  {
+    title: "品牌包装",
+    type: "Brand Motion",
+    poster: "/assets/strength-cards.png",
+    tag: "BRAND / VISUAL",
+    desc: "把品牌气质、信息层级和视觉节奏整合为可复用的包装系统。",
+  },
+  {
+    title: "性能广告",
+    type: "Performance Ads",
+    poster: "/assets/project-01.png",
+    tag: "DATA DRIVEN",
+    desc: "围绕点击、完播和转化数据持续调整镜头、节奏、文案与素材结构。",
+  },
+];
+
+const strengths = [
+  {
+    icon: Clapperboard,
+    kicker: "END-TO-END",
+    title: "全链路制作",
+    text: "从创意方向、脚本分镜到剪辑、动效、音效、合成和多规格交付，独立完成制作闭环。",
+  },
+  {
+    icon: Palette,
+    kicker: "STYLE DECODER",
+    title: "多风格解码",
+    text: "快速拆解二次元、写实、国风、科幻、欧美、日韩与卡通休闲等美术语言。",
+  },
+  {
+    icon: Target,
+    kicker: "PERFORMANCE",
+    title: "数据驱动迭代",
+    text: "围绕消耗、点击率、完播率与转化反馈调整镜头、文案、音乐、节奏和时长。",
+  },
+  {
+    icon: Cpu,
+    kicker: "AI-POWERED",
+    title: "AI 效率增强",
+    text: "将 AI 工具融入视频探索与视频生产，提升素材制作效率，拓展创意表达边界。",
+  },
+];
+
+function getVideoPoster(videoUrl) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.muted = true;
+    video.playsInline = true;
+    video.src = videoUrl;
+
+    const cleanReject = () => reject(new Error("无法读取视频首帧"));
+
+    video.addEventListener("loadedmetadata", () => {
+      video.currentTime = Math.min(0.1, video.duration || 0.1);
+    });
+
+    video.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+      const width = video.videoWidth || 1280;
+      const height = video.videoHeight || 720;
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      resolve({
+        poster: canvas.toDataURL("image/jpeg", 0.86),
+        width,
+        height,
+        orientation: width / height < 0.9 ? "portrait" : width / height > 1.2 ? "wide" : "square",
+      });
+    });
+
+    video.addEventListener("error", cleanReject);
+  });
+}
+
+function getProjectMediaClass(project) {
+  return `stage-media motion-reveal media-${project.orientation ?? "wide"}`;
+}
+
+function getProjectMediaStyle(project) {
+  const width = project.mediaWidth || PROJECT_FRAME_WIDTH;
+  const height = project.mediaHeight || PROJECT_FRAME_HEIGHT;
+  const foregroundScale = Math.min(PROJECT_FRAME_WIDTH / width, PROJECT_FRAME_HEIGHT / height);
+  const backgroundScale = Math.max(PROJECT_FRAME_WIDTH / width, PROJECT_FRAME_HEIGHT / height);
+  const displayWidth = (width * foregroundScale) / PROJECT_FRAME_WIDTH;
+  const displayHeight = (height * foregroundScale) / PROJECT_FRAME_HEIGHT;
+  const backgroundWidth = (width * backgroundScale) / PROJECT_FRAME_WIDTH;
+  const backgroundHeight = (height * backgroundScale) / PROJECT_FRAME_HEIGHT;
+
+  return {
+    "--media-display-width": `${displayWidth * 100}%`,
+    "--media-display-height": `${displayHeight * 100}%`,
+    "--media-bg-width": `${backgroundWidth * 100}%`,
+    "--media-bg-height": `${backgroundHeight * 100}%`,
+  };
+}
+
+function usePortfolioMotion() {
+  useLayoutEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      document.documentElement.classList.add("motion-reduced");
+      return undefined;
+    }
+
+    document.documentElement.classList.add("motion-enabled");
+
+    const ctx = gsap.context(() => {
+      gsap.defaults({ ease: "power4.out" });
+
+      gsap.set(".site-header", { autoAlpha: 0, y: -110 });
+      gsap.set(".hero-image", { scale: 1.18, filter: "blur(10px) saturate(1.22)" });
+      gsap.set(".hero-copy .eyebrow, .role-line, .title-bar, .hero-text", {
+        autoAlpha: 0,
+        y: 42,
+      });
+      gsap.set(".hero h1", {
+        autoAlpha: 0,
+        y: 130,
+        scaleX: 0.68,
+        clipPath: "inset(0 100% 0 0)",
+        filter: "blur(18px)",
+        transformOrigin: "left center",
+      });
+      gsap.set(".hero-panel", {
+        autoAlpha: 0,
+        x: 86,
+        y: 28,
+        clipPath: "inset(0 0 100% 0)",
+      });
+      gsap.set(".dot-grid i", { autoAlpha: 0, scale: 0.35 });
+
+      gsap
+        .timeline({ defaults: { duration: 1.35 } })
+        .to(".hero-image", {
+          scale: 1,
+          filter: "blur(0px) saturate(1)",
+          duration: 2.4,
+          ease: "expo.out",
+        })
+        .to(".site-header", { autoAlpha: 1, y: 0, duration: 1.25 }, 0.12)
+        .to(".hero-copy .eyebrow", { autoAlpha: 1, y: 0, duration: 0.95 }, 0.48)
+        .to(".role-line", { autoAlpha: 1, y: 0, duration: 1.05 }, 0.72)
+        .to(
+          ".hero h1",
+          {
+            autoAlpha: 1,
+            y: 0,
+            scaleX: 1,
+            clipPath: "inset(0 0% 0 0)",
+            filter: "blur(0px)",
+            duration: 1.85,
+            ease: "expo.out",
+          },
+          0.92,
+        )
+        .to(".title-bar", { autoAlpha: 1, y: 0, duration: 1.15 }, 1.42)
+        .to(".hero-text", { autoAlpha: 1, y: 0, duration: 1.05 }, 1.62)
+        .to(
+          ".hero-panel",
+          {
+            autoAlpha: 1,
+            x: 0,
+            y: 0,
+            clipPath: "inset(0 0 0% 0)",
+            duration: 1.35,
+          },
+          1.2,
+        )
+        .to(".dot-grid i", { autoAlpha: 1, scale: 1, stagger: 0.045, duration: 0.75 }, 1.62);
+
+      gsap.to(".hero-image", {
+        yPercent: 10,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.utils.toArray(".motion-section").forEach((section) => {
+        const q = gsap.utils.selector(section);
+        const cards = q(".motion-card");
+        const media = q(".motion-reveal");
+        const headingItems = q(".section-index, .section-heading .eyebrow, .section-heading h2");
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 72%",
+            once: true,
+          },
+        });
+
+        tl.from(q(".section-ghost-title"), {
+          autoAlpha: 0,
+          x: -180,
+          y: 90,
+          scale: 1.22,
+          duration: 1.55,
+          ease: "expo.out",
+        })
+          .from(
+            headingItems,
+            {
+              autoAlpha: 0,
+              y: 74,
+              clipPath: "inset(0 0 100% 0)",
+              stagger: 0.11,
+              duration: 1.2,
+              ease: "expo.out",
+            },
+            0.18,
+          )
+          .from(
+            cards,
+            {
+              autoAlpha: 0,
+              y: 86,
+              scale: 0.965,
+              filter: "blur(10px)",
+              stagger: 0.13,
+              duration: 1.25,
+              ease: "power4.out",
+            },
+            0.48,
+          )
+          .from(
+            media,
+            {
+              clipPath: "inset(0 100% 0 0)",
+              duration: 1.4,
+              stagger: 0.12,
+              ease: "expo.inOut",
+            },
+            0.42,
+          )
+          .from(
+            q(".motion-reveal:not(.stage-media) img, .motion-reveal:not(.stage-media) video"),
+            {
+              scale: 1.16,
+              duration: 1.55,
+              stagger: 0.12,
+              ease: "expo.out",
+            },
+            0.48,
+          );
+      });
+
+      gsap.utils.toArray(".motion-parallax").forEach((element) => {
+        const media = element.querySelector("img, video");
+        if (!media) return;
+
+        gsap.fromTo(
+          media,
+          { yPercent: -7 },
+          {
+            yPercent: 7,
+            ease: "none",
+            scrollTrigger: {
+              trigger: element,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.8,
+            },
+          },
+        );
+      });
+    });
+
+    return () => {
+      ctx.revert();
+      document.documentElement.classList.remove("motion-enabled");
+    };
+  }, []);
+}
+
+function Header({ onContactClick }) {
+  return (
+    <header className="site-header" aria-label="主导航">
+      <a className="brand" href="#hero" aria-label="返回首页">
+        <span className="brand-mark">CM</span>
+        <span>
+          <strong>MINGTU</strong>
+          <small>PORTFOLIO</small>
+        </span>
+      </a>
+
+      <nav className="nav-links" aria-label="页面导航">
+        {navItems.map((item) => (
+          <a key={item.href} href={item.href}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <button className="contact-button" type="button" onClick={onContactClick}>
+        联系合作
+        <ArrowUpRight size={18} aria-hidden="true" />
+      </button>
+    </header>
+  );
+}
+
+function ContactModal({ open, onClose }) {
+  if (!open) return null;
+
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <div
+        className="contact-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="个人联系方式"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button className="modal-close" type="button" onClick={onClose} aria-label="关闭弹窗">
+          <X size={20} aria-hidden="true" />
+        </button>
+        <p className="eyebrow">CONTACT / COOPERATION</p>
+        <h2>联系合作</h2>
+        <div className="contact-list">
+          <div>
+            <Phone size={20} aria-hidden="true" />
+            <span>联系电话</span>
+            <strong>{CONTACT_PHONE}</strong>
+          </div>
+          <a href={`mailto:${CONTACT_EMAIL}`}>
+            <Mail size={20} aria-hidden="true" />
+            <span>邮箱</span>
+            <strong>{CONTACT_EMAIL}</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Hero({ onContactClick }) {
+  return (
+    <section className="hero section" id="hero">
+      <img className="hero-image" src="/assets/hero-static.png" alt="首屏视觉背景" />
+      <div className="hero-scrim" />
+      <div className="hero-inner page-shell">
+        <div className="hero-copy">
+          <p className="eyebrow">WELCOME TO PLATO ERA</p>
+          <p className="role-line">VIDEO DESIGNER / AI DESIGNER / BRAND DESIGNER</p>
+          <h1>
+            CM
+            <span>Plato</span>
+          </h1>
+          <div className="title-bar">MINGTU / VISUAL CREATOR</div>
+          <p className="hero-text">
+            6 年游戏视频与海外买量素材制作经验。擅长把游戏卖点翻译成有节奏、有记忆点、可验证的视觉内容。
+          </p>
+        </div>
+
+        <div className="hero-panel" aria-label="核心身份">
+          <div className="dot-grid" aria-hidden="true">
+            {Array.from({ length: 12 }).map((_, index) => (
+              <i key={index} />
+            ))}
+          </div>
+          <div>
+            <span>BASED IN</span>
+            <strong>GUANGZHOU · CN</strong>
+          </div>
+          <div>
+            <span>CONTACT</span>
+            <strong>{CONTACT_EMAIL}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Profile() {
+  return (
+    <section className="profile section motion-section" id="profile">
+      <span className="section-ghost-title" aria-hidden="true">
+        PROFILE
+      </span>
+      <div className="page-shell profile-grid">
+        <div className="portrait-card profile-shot motion-card motion-reveal motion-parallax">
+          <img src="/assets/experience-portrait.png" alt="陈明图个人经历视觉卡片" />
+        </div>
+
+        <div className="profile-copy motion-card">
+          <p className="eyebrow">ABOUT / PROFESSIONAL PROFILE</p>
+          <h2>陈明图</h2>
+          <p className="profile-role">个人工作简介 / MINGTU VISUAL CREATOR</p>
+          <p className="lead">
+            6 年游戏视频与海外买量素材制作经验。擅长把游戏卖点翻译成有节奏、有记忆点、可验证的视觉内容。
+          </p>
+          <p>
+            我能独立完成创意提案、脚本分镜、剪辑、动效包装、合成及多规格交付，并结合投放反馈快速迭代素材。AI 工具已融入日常视频制作，用于提升效率与扩展视觉方案。
+          </p>
+
+          <div className="profile-meta">
+            <a href={`mailto:${CONTACT_EMAIL}`}>
+              <Mail size={17} aria-hidden="true" />
+              {CONTACT_EMAIL}
+            </a>
+            <span>
+              <MapPin size={17} aria-hidden="true" />
+              Guangzhou · CN
+            </span>
+          </div>
+
+          <div className="skill-pills" aria-label="设计工具">
+            {["AE", "PR", "PS", "AI", "AI TOOLS", "BRAND"].map((skill) => (
+              <span key={skill}>{skill}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="page-shell stats-grid" aria-label="项目数据">
+        {stats.map((item) => (
+          <article className="stat-item motion-card" key={item.sub}>
+            <strong>
+              {item.value}
+              {item.suffix && <sup>{item.suffix}</sup>}
+            </strong>
+            <span>{item.label}</span>
+            <small>{item.sub}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section className="experience section motion-section" id="experience">
+      <span className="section-ghost-title" aria-hidden="true">
+        CAREER PATH
+      </span>
+      <div className="page-shell">
+        <div className="section-heading">
+          <p className="section-index">01</p>
+          <div>
+            <p className="eyebrow">EXPERIENCE / CAREER PATH</p>
+            <h2>个人经历</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExperienceTimeline() {
+  return (
+    <section className="experience-timeline-section section motion-section" aria-label="个人经历详情">
+      <span className="section-ghost-title compact" aria-hidden="true">
+        TIMELINE
+      </span>
+      <div className="page-shell">
+        <div className="timeline">
+          {jobs.map((job, index) => (
+            <article className="timeline-row motion-card" key={job.company}>
+              <span className="timeline-no">{String(index + 1).padStart(2, "0")}</span>
+              <strong className="timeline-period">{job.period}</strong>
+              <div>
+                <h3>{job.company}</h3>
+                <p>{job.role}</p>
+              </div>
+              <p className="timeline-detail">{job.detail}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Projects() {
+  const canManageProjects = new URLSearchParams(window.location.search).get("edit") === "1";
+  const [projects, setProjects] = useState(initialProjects);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
+  const videoRef = useRef(null);
+  const projectsRef = useRef(projects);
+
+  const activeProject = projects[activeIndex];
+  const activeMediaStyle = getProjectMediaStyle(activeProject);
+  const thumbWindowStart = Math.min(
+    Math.max(activeIndex - 2, 0),
+    Math.max(projects.length - 5, 0),
+  );
+  const visibleProjects = projects.slice(thumbWindowStart, thumbWindowStart + 5);
+
+  useEffect(() => {
+    projectsRef.current = projects;
+  }, [projects]);
+
+  useEffect(() => {
+    if (playing && videoRef.current) {
+      videoRef.current.play().catch(() => setPlaying(false));
+    }
+  }, [playing, activeIndex]);
+
+  useEffect(() => {
+    return () => {
+      projectsRef.current.forEach((project) => {
+        if (project.videoUrl) URL.revokeObjectURL(project.videoUrl);
+      });
+    };
+  }, []);
+
+  const uploadVideo = () => {
+    if (!canManageProjects) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleVideoSelect = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    const videoUrl = URL.createObjectURL(file);
+    setUploading(true);
+
+    try {
+      const media = await getVideoPoster(videoUrl);
+      setProjects((current) =>
+        current.map((project, index) => {
+          if (index !== activeIndex) return project;
+          if (project.videoUrl) URL.revokeObjectURL(project.videoUrl);
+          return {
+            ...project,
+            poster: media.poster,
+            mediaWidth: media.width,
+            mediaHeight: media.height,
+            orientation: media.orientation,
+            videoUrl,
+            fileName: file.name,
+          };
+        }),
+      );
+      setPlaying(false);
+    } catch {
+      URL.revokeObjectURL(videoUrl);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const togglePlay = () => {
+    if (!activeProject.videoUrl) {
+      if (canManageProjects) uploadVideo();
+      return;
+    }
+    setPlaying((current) => !current);
+  };
+
+  const switchProject = (index) => {
+    setActiveIndex(index);
+    setPlaying(false);
+  };
+
+  const moveProject = (direction) => {
+    const nextIndex = (activeIndex + direction + projects.length) % projects.length;
+    switchProject(nextIndex);
+  };
+
+  const updateProjectText = (field, value) => {
+    const nextValue = value.trim();
+    if (!nextValue) return;
+
+    setProjects((current) =>
+      current.map((project, index) =>
+        index === activeIndex ? { ...project, [field]: nextValue } : project,
+      ),
+    );
+  };
+
+  const addProject = () => {
+    setProjects((current) => {
+      const nextIndex = current.length + 1;
+      return [
+        ...current,
+        {
+          title: `新项目 ${nextIndex}`,
+          type: "待上传作品视频",
+          poster: "/assets/project-layout-reference.png",
+          tag: "NEW PROJECT",
+          desc: "点击上传作品视频后，系统会自动抓取视频首帧作为卡面。",
+        },
+      ];
+    });
+    setActiveIndex(projects.length);
+    setPlaying(false);
+    window.setTimeout(() => fileInputRef.current?.click(), 0);
+  };
+
+  return (
+    <section className="projects section motion-section" id="projects">
+      <span className="section-ghost-title" aria-hidden="true">
+        SELECTED WORK
+      </span>
+      <div className="page-shell">
+        <div className="section-heading projects-heading">
+          <p className="section-index">02</p>
+          <div>
+            <p className="eyebrow">SELECTED WORK</p>
+            <h2>
+              游戏
+              <span>项目</span>
+            </h2>
+          </div>
+          <div className="projects-tools">
+            <p>跨题材、跨市场的游戏视频与海外买量创意实践。</p>
+            {canManageProjects && (
+              <button type="button" onClick={uploadVideo}>
+                上传作品视频
+                <Plus size={16} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="project-stage motion-card">
+          <div className={getProjectMediaClass(activeProject)} style={activeMediaStyle}>
+            {playing && activeProject.videoUrl ? (
+              <video
+                className="stage-media-bg"
+                src={activeProject.videoUrl}
+                muted
+                autoPlay
+                loop
+                playsInline
+                aria-hidden="true"
+              />
+            ) : (
+              <img className="stage-media-bg" src={activeProject.poster} alt="" aria-hidden="true" />
+            )}
+            {playing && activeProject.videoUrl ? (
+              <video
+                ref={videoRef}
+                src={activeProject.videoUrl}
+                poster={activeProject.poster}
+                controls
+                playsInline
+                onEnded={() => setPlaying(false)}
+              />
+            ) : (
+              <img
+                src={activeProject.poster}
+                alt={`${activeProject.title}作品首帧`}
+              />
+            )}
+
+            {(activeProject.videoUrl || canManageProjects) && (
+              <button className="play-button" type="button" onClick={togglePlay}>
+                {playing ? (
+                  <Pause size={15} fill="currentColor" aria-hidden="true" />
+                ) : (
+                  <Play size={15} fill="currentColor" aria-hidden="true" />
+                )}
+                {playing ? "PAUSE" : activeProject.videoUrl ? "PLAY" : "UPLOAD"}
+              </button>
+            )}
+            {canManageProjects && (
+              <button
+                className="float-icon"
+                type="button"
+                onClick={uploadVideo}
+                aria-label="上传作品视频"
+              >
+                <Upload size={21} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+
+          <aside className="stage-info motion-card">
+            <span>/0{activeIndex + 1}</span>
+            <small>SELECTED / 0{activeIndex + 1}</small>
+            <h3
+              className={canManageProjects ? "editable-text" : undefined}
+              contentEditable={canManageProjects}
+              suppressContentEditableWarning
+              onBlur={(event) =>
+                canManageProjects && updateProjectText("title", event.currentTarget.textContent)
+              }
+            >
+              {activeProject.title}
+            </h3>
+            <p
+              className={canManageProjects ? "editable-text" : undefined}
+              contentEditable={canManageProjects}
+              suppressContentEditableWarning
+              onBlur={(event) =>
+                canManageProjects && updateProjectText("type", event.currentTarget.textContent)
+              }
+            >
+              {activeProject.type}
+            </p>
+            <strong
+              className={canManageProjects ? "editable-text" : undefined}
+              contentEditable={canManageProjects}
+              suppressContentEditableWarning
+              onBlur={(event) =>
+                canManageProjects && updateProjectText("tag", event.currentTarget.textContent)
+              }
+            >
+              {activeProject.tag}
+            </strong>
+            <p
+              className={canManageProjects ? "stage-desc editable-text" : "stage-desc"}
+              contentEditable={canManageProjects}
+              suppressContentEditableWarning
+              onBlur={(event) =>
+                canManageProjects && updateProjectText("desc", event.currentTarget.textContent)
+              }
+            >
+              {activeProject.desc}
+            </p>
+            <div className="project-tags">
+              <span>Creative</span>
+              <span>Motion</span>
+              <span>Performance</span>
+            </div>
+          </aside>
+
+          <div className="project-rail motion-card">
+            <div className="project-index">
+              <small>PROJECT INDEX</small>
+              <strong>
+                {String(activeIndex + 1).padStart(2, "0")} /{" "}
+                {String(projects.length).padStart(2, "0")}
+              </strong>
+            </div>
+            <button type="button" onClick={() => moveProject(-1)} aria-label="上一个项目">
+              <ArrowLeft size={20} aria-hidden="true" />
+            </button>
+            <div className="thumb-list">
+              {visibleProjects.map((project, visibleIndex) => {
+                const index = thumbWindowStart + visibleIndex;
+                return (
+                <button
+                  type="button"
+                  className={index === activeIndex ? "active" : ""}
+                  key={`${project.title}-${index}`}
+                  onClick={() => switchProject(index)}
+                  aria-label={`切换到 ${project.title}`}
+                >
+                  <img src={project.poster} alt="" />
+                </button>
+                );
+              })}
+            </div>
+            <button type="button" onClick={() => moveProject(1)} aria-label="下一个项目">
+              <ArrowRight size={20} aria-hidden="true" />
+            </button>
+            {canManageProjects && (
+              <button className="add-project-button" type="button" onClick={addProject}>
+                添加项目
+                <Plus size={16} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {canManageProjects && (
+          <input
+            ref={fileInputRef}
+            className="sr-only"
+            type="file"
+            accept="video/*"
+            onChange={handleVideoSelect}
+          />
+        )}
+        {canManageProjects && uploading && <p className="upload-status">正在读取视频首帧...</p>}
+      </div>
+    </section>
+  );
+}
+
+function Strengths() {
+  return (
+    <section className="strengths section motion-section" id="strengths">
+      <span className="section-ghost-title" aria-hidden="true">
+        PERFORMANCE
+      </span>
+      <div className="page-shell">
+        <div className="strengths-hero">
+          <div>
+            <p className="eyebrow">PERFORMANCE RECORD / 入职以来</p>
+            <h2>
+              不只让画面
+              <span>好看。</span>
+            </h2>
+          </div>
+          <p>从创意到落地，从审美到数据，用完整链路保障每一次表达。</p>
+        </div>
+
+        <div className="record-panel motion-card">
+          <p className="motion-card">
+            实际产出持续高于产能指标，稳定完成高质量交付；素材消耗长期保持设计部前三，两次个人总消耗排行第一。
+          </p>
+          <div className="motion-card">
+            <strong>
+              120<span>%</span>
+            </strong>
+            <small>平均月出交付率 / DELIVERY RATE</small>
+          </div>
+          <div className="motion-card">
+            <strong>
+              8W<span>USD</span>
+            </strong>
+            <small>每月平均消耗 / MONTHLY SPEND</small>
+          </div>
+          <div className="motion-card">
+            <strong>
+              TOP<span>3</span>
+            </strong>
+            <small>设计部长期排名 / DESIGN RANKING</small>
+          </div>
+        </div>
+
+        <div className="strength-grid">
+          {strengths.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <article className="strength-card motion-card" key={item.title}>
+                <span className="card-no">0{index + 1}</span>
+                <span className="icon-badge">
+                  <Icon size={22} aria-hidden="true" />
+                </span>
+                <p>{item.kicker}</p>
+                <h3>{item.title}</h3>
+                <small>{item.text}</small>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact({ onContactClick }) {
+  return (
+    <section className="contact-section section motion-section" id="contact">
+      <span className="section-ghost-title" aria-hidden="true">
+        CONTACT
+      </span>
+      <div className="page-shell contact-inner">
+        <p className="eyebrow">LET'S BUILD THE NEXT VISUAL SYSTEM</p>
+        <h2>让项目从第一眼开始被记住。</h2>
+        <p>
+          可合作方向：游戏视频广告、AI 视觉探索、品牌视觉包装、海外买量素材、项目视觉系统搭建。
+        </p>
+        <div className="contact-actions motion-card">
+          <button className="primary-link" type="button" onClick={onContactClick}>
+            <Mail size={20} aria-hidden="true" />
+            查看联系方式
+          </button>
+          <a className="secondary-link" href="#hero">
+            返回顶部
+            <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+        <div className="contact-footer motion-card">
+          <span>CM / MINGTU PORTFOLIO</span>
+          <span>VIDEO · AI · BRAND DESIGN</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function App() {
+  const [contactOpen, setContactOpen] = useState(false);
+  usePortfolioMotion();
+
+  return (
+    <>
+      <Header onContactClick={() => setContactOpen(true)} />
+      <Hero />
+      <main>
+        <Experience />
+        <Profile />
+        <ExperienceTimeline />
+        <Projects />
+        <Strengths />
+        <Contact onContactClick={() => setContactOpen(true)} />
+      </main>
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+    </>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
