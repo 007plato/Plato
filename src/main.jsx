@@ -48,6 +48,10 @@ function syncEditableText(editKey, value, sourceElement) {
   });
 }
 
+function safeHeaderValue(value) {
+  return encodeURIComponent(String(value || ""));
+}
+
 function EditableText({ as: Tag = "span", editKey, children, className, ...props }) {
   const [value, setValue] = useState(() => editableValue(editKey, children));
   const editableClassName = [className, IS_EDIT_MODE ? "editable-text" : ""]
@@ -249,10 +253,10 @@ const initialProjects = [
   {
     title: "重返未来 1999 05",
     type: "二次元游戏广告",
-    poster: "/assets/video-posters/project-13.jpg",
-    videoUrl: "/assets/videos/project-13-重返未来1999-1280x720.mp4",
-    mediaWidth: 1280,
-    mediaHeight: 720,
+    poster: "/assets/video-posters/project-13-重返未来-1999-05-20260807085855182-rn8rpx.jpg",
+    videoUrl: "/assets/videos/project-13-重返未来-1999-05-20260807085854167-cjbxce.mp4",
+    mediaWidth: 1920,
+    mediaHeight: 1080,
     orientation: "wide",
     tag: "PERFORMANCE",
     desc: "在保持美术调性的同时，突出素材首秒吸引力和投放转化效率。"
@@ -311,18 +315,33 @@ const strengths = [
 function getVideoPoster(videoUrl) {
   return new Promise((resolve, reject) => {
     const video = document.createElement("video");
-    video.preload = "metadata";
-    video.muted = true;
-    video.playsInline = true;
-    video.src = videoUrl;
+    let settled = false;
+    const timeout = window.setTimeout(() => cleanReject(), 10000);
 
-    const cleanReject = () => reject(new Error("无法读取视频首帧"));
+    const finish = (payload) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      video.removeAttribute("src");
+      video.load();
+      resolve(payload);
+    };
 
-    video.addEventListener("loadedmetadata", () => {
-      video.currentTime = Math.min(0.1, video.duration || 0.1);
-    });
+    const cleanReject = () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      video.removeAttribute("src");
+      video.load();
+      reject(new Error("无法读取视频首帧"));
+    };
 
-    video.addEventListener("seeked", () => {
+    const capturePoster = () => {
+      if (!video.videoWidth || !video.videoHeight) {
+        cleanReject();
+        return;
+      }
+
       const canvas = document.createElement("canvas");
       const width = video.videoWidth || 1280;
       const height = video.videoHeight || 720;
@@ -330,15 +349,36 @@ function getVideoPoster(videoUrl) {
       canvas.height = height;
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      resolve({
+      finish({
         poster: canvas.toDataURL("image/jpeg", 0.86),
         width,
         height,
         orientation: width / height < 0.9 ? "portrait" : width / height > 1.2 ? "wide" : "square",
       });
+    };
+
+    video.preload = "auto";
+    video.muted = true;
+    video.playsInline = true;
+    video.crossOrigin = "anonymous";
+
+    video.addEventListener("loadedmetadata", () => {
+      const targetTime = Math.min(0.12, Math.max((video.duration || 1) * 0.02, 0.04));
+      try {
+        video.currentTime = targetTime;
+      } catch {
+        capturePoster();
+      }
+    });
+
+    video.addEventListener("seeked", capturePoster);
+    video.addEventListener("loadeddata", () => {
+      if (video.readyState >= 2 && video.currentTime > 0) capturePoster();
     });
 
     video.addEventListener("error", cleanReject);
+    video.src = videoUrl;
+    video.load();
   });
 }
 
@@ -822,7 +862,7 @@ function Projects() {
       setProjects((current) =>
         current.map((project, index) => {
           if (index !== activeIndex) return project;
-          if (project.videoUrl) URL.revokeObjectURL(project.videoUrl);
+          if (project.videoUrl?.startsWith("blob:")) URL.revokeObjectURL(project.videoUrl);
           return {
             ...project,
             poster: media.poster,
@@ -837,8 +877,10 @@ function Projects() {
         }),
       );
       setPlaying(false);
-    } catch {
+      setSaveMessage("已读取新视频首帧，请点击保存到本地项目。");
+    } catch (error) {
       URL.revokeObjectURL(videoUrl);
+      setSaveMessage(error.message || "读取视频首帧失败，请换一个视频再试。");
     } finally {
       setUploading(false);
     }
@@ -920,8 +962,8 @@ function Projects() {
             headers: {
               "Content-Type": project.pendingFile.type || "application/octet-stream",
               "X-Project-Index": String(index + 1),
-              "X-Project-Title": project.title,
-              "X-File-Name": project.pendingFile.name,
+              "X-Project-Title": safeHeaderValue(project.title),
+              "X-File-Name": safeHeaderValue(project.pendingFile.name),
             },
             body: project.pendingFile,
           });
@@ -1034,6 +1076,7 @@ function Projects() {
             onPointerLeave={() => setPlayButtonVisible(false)}
           >
             <img
+              key={`bg-${activeIndex}-${activeProject.poster}`}
               className="stage-media-bg"
               src={activeProject.poster}
               alt=""
@@ -1054,6 +1097,7 @@ function Projects() {
               />
             ) : (
               <img
+                key={`poster-${activeIndex}-${activeProject.poster}`}
                 src={activeProject.poster}
                 alt={`${activeProject.title}作品首帧`}
                 loading="eager"
@@ -1155,7 +1199,13 @@ function Projects() {
                   onClick={() => switchProject(index)}
                   aria-label={`切换到 ${project.title}`}
                 >
-                  <img src={project.poster} alt="" loading="lazy" decoding="async" />
+                  <img
+                    key={`${index}-${project.poster}`}
+                    src={project.poster}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </button>
                 );
               })}

@@ -18,6 +18,20 @@ function sanitizeName(value) {
     .slice(0, 80);
 }
 
+function decodeHeaderValue(value, fallback = "") {
+  try {
+    return decodeURIComponent(String(value || fallback));
+  } catch {
+    return String(value || fallback);
+  }
+}
+
+function fileVersion() {
+  return `${new Date().toISOString().replace(/[-:.TZ]/g, "")}-${Math.random()
+    .toString(36)
+    .slice(2, 8)}`;
+}
+
 function readRequestBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -73,9 +87,9 @@ function localAdminPlugin() {
       server.middlewares.use(async (req, res, next) => {
         try {
           if (req.method === "POST" && req.url === "/__local-admin/upload-video") {
-            const title = sanitizeName(req.headers["x-project-title"]);
+            const title = sanitizeName(decodeHeaderValue(req.headers["x-project-title"], "project"));
             const index = String(req.headers["x-project-index"] || "0").padStart(2, "0");
-            const originalName = sanitizeName(req.headers["x-file-name"] || "video.mp4");
+            const originalName = decodeHeaderValue(req.headers["x-file-name"], "video.mp4");
             const ext = path.extname(originalName).toLowerCase() || ".mp4";
 
             if (![".mp4", ".webm", ".mov"].includes(ext)) {
@@ -84,7 +98,7 @@ function localAdminPlugin() {
             }
 
             await fs.mkdir(videosDir, { recursive: true });
-            const fileName = `project-${index}-${title}${ext}`;
+            const fileName = `project-${index}-${title}-${fileVersion()}${ext}`;
             const target = path.join(videosDir, fileName);
             await fs.writeFile(target, await readRequestBody(req));
             sendJson(res, 200, { videoUrl: `/assets/videos/${fileName}` });
@@ -104,7 +118,7 @@ function localAdminPlugin() {
             const title = sanitizeName(body.title);
             const index = String(body.index || "0").padStart(2, "0");
             const ext = match[1] === "png" ? "png" : "jpg";
-            const fileName = `project-${index}-${title}.${ext}`;
+            const fileName = `project-${index}-${title}-${fileVersion()}.${ext}`;
             await fs.writeFile(path.join(postersDir, fileName), Buffer.from(match[2], "base64"));
             sendJson(res, 200, { poster: `/assets/video-posters/${fileName}` });
             return;
