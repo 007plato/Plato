@@ -19,6 +19,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import contentOverrides from "./content-overrides.json";
 import "./styles.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,6 +28,53 @@ const CONTACT_EMAIL = "1622764597@qq.com";
 const CONTACT_PHONE = "13556676096";
 const PROJECT_FRAME_WIDTH = 1280;
 const PROJECT_FRAME_HEIGHT = 720;
+const IS_EDIT_MODE = new URLSearchParams(window.location.search).get("edit") === "1";
+
+function editableValue(editKey, fallback) {
+  return contentOverrides[editKey] ?? fallback;
+}
+
+function collectEditableTexts() {
+  return Array.from(document.querySelectorAll("[data-edit-key]")).reduce((texts, element) => {
+    texts[element.dataset.editKey] = element.textContent.trim();
+    return texts;
+  }, {});
+}
+
+function syncEditableText(editKey, value, sourceElement) {
+  document.querySelectorAll("[data-edit-key]").forEach((element) => {
+    if (element === sourceElement || element.dataset.editKey !== editKey) return;
+    element.textContent = value;
+  });
+}
+
+function EditableText({ as: Tag = "span", editKey, children, className, ...props }) {
+  const [value, setValue] = useState(() => editableValue(editKey, children));
+  const editableClassName = [className, IS_EDIT_MODE ? "editable-text" : ""]
+    .filter(Boolean)
+    .join(" ");
+
+  useEffect(() => {
+    setValue(editableValue(editKey, children));
+  }, [editKey, children]);
+
+  return (
+    <Tag
+      {...props}
+      className={editableClassName || undefined}
+      data-edit-key={editKey}
+      contentEditable={IS_EDIT_MODE}
+      suppressContentEditableWarning
+      onBlur={(event) => {
+        const nextValue = event.currentTarget.textContent.trim();
+        setValue(nextValue);
+        syncEditableText(editKey, nextValue, event.currentTarget);
+      }}
+    >
+      {value}
+    </Tag>
+  );
+}
 
 const navItems = [
   { label: "个人经历", href: "#experience" },
@@ -69,168 +117,168 @@ const initialProjects = [
   {
     title: "海贼王 01",
     type: "海外买量创意系列",
-    poster: "/assets/project-layout-reference.png",
+    poster: "/assets/video-posters/project-01.jpg",
     videoUrl: "/assets/videos/project-01-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "消耗排行 TOP 1 × 2",
-    desc: "围绕角色卖点和节奏记忆点制作高转化视频素材，支撑重点地区投放。",
+    desc: "围绕角色卖点和节奏记忆点制作高转化视频素材，支撑重点地区投放。"
   },
   {
     title: "海贼王 02",
     type: "海外买量创意系列",
-    poster: "/assets/project-02.png",
+    poster: "/assets/video-posters/project-02.jpg",
     videoUrl: "/assets/videos/project-02-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "CREATIVE / MOTION",
-    desc: "围绕活动节点、角色卖点与投放节奏制作横版视频素材，适配海外买量场景。",
+    desc: "围绕活动节点、角色卖点与投放节奏制作横版视频素材，适配海外买量场景。"
   },
   {
     title: "海贼王 03",
     type: "海外买量创意系列",
-    poster: "/assets/project-01.png",
+    poster: "/assets/video-posters/project-03.jpg",
     videoUrl: "/assets/videos/project-03-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "PERFORMANCE ADS",
-    desc: "以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。",
+    desc: "以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。"
   },
   {
     title: "海贼王 04",
     type: "海外买量创意系列",
-    poster: "/assets/project-layout-reference.png",
+    poster: "/assets/video-posters/project-04.jpg",
     videoUrl: "/assets/videos/project-04-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "VIDEO / AD",
-    desc: "通过镜头节奏、信息层级和视觉冲击力，强化素材在短时间内的吸引力。",
+    desc: "通过镜头节奏、信息层级和视觉冲击力，强化素材在短时间内的吸引力。"
   },
   {
     title: "海贼王 05",
     type: "海外买量创意系列",
-    poster: "/assets/project-02.png",
+    poster: "/assets/video-posters/project-05.jpg",
     videoUrl: "/assets/videos/project-05-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "DATA DRIVEN",
-    desc: "围绕点击、完播和转化数据持续调整镜头、节奏、文案与素材结构。",
+    desc: "围绕点击、完播和转化数据持续调整镜头、节奏、文案与素材结构。"
   },
   {
     title: "海贼王 06",
     type: "海外买量创意系列",
-    poster: "/assets/strength-visual.png",
+    poster: "/assets/video-posters/project-06.jpg",
     videoUrl: "/assets/videos/project-06-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "MOTION DESIGN",
-    desc: "结合角色素材、场景包装和节奏化剪辑，形成适合投放测试的视频版本。",
+    desc: "结合角色素材、场景包装和节奏化剪辑，形成适合投放测试的视频版本。"
   },
   {
     title: "海贼王 07",
     type: "海外买量创意系列",
-    poster: "/assets/strength-cards.png",
+    poster: "/assets/video-posters/project-07.jpg",
     videoUrl: "/assets/videos/project-07-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "AD CREATIVE",
-    desc: "从画面吸引、卖点表达和收口转化三个层面组织视频内容。",
+    desc: "从画面吸引、卖点表达和收口转化三个层面组织视频内容。"
   },
   {
     title: "海贼王 08",
     type: "海外买量创意系列",
-    poster: "/assets/project-layout-reference.png",
+    poster: "/assets/video-posters/project-08.jpg",
     videoUrl: "/assets/videos/project-08-海贼王-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "GLOBAL MARKET",
-    desc: "面向海外投放语境进行包装和节奏处理，提升素材辨识度与转化表现。",
+    desc: "面向海外投放语境进行包装和节奏处理，提升素材辨识度与转化表现。"
   },
   {
     title: "重返未来 1999 01",
     type: "二次元游戏广告",
-    poster: "/assets/project-01.png",
+    poster: "/assets/video-posters/project-09.jpg",
     videoUrl: "/assets/videos/project-09-重返未来1999-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "STYLE / MOTION",
-    desc: "围绕二次元美术气质与游戏内容卖点，制作具备节奏记忆点的视频素材。",
+    desc: "围绕二次元美术气质与游戏内容卖点，制作具备节奏记忆点的视频素材。"
   },
   {
     title: "重返未来 1999 02",
     type: "二次元游戏广告",
-    poster: "/assets/project-02.png",
+    poster: "/assets/video-posters/project-10.jpg",
     videoUrl: "/assets/videos/project-10-重返未来1999-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "NARRATIVE AD",
-    desc: "以视觉氛围、角色亮点和广告节奏构建完整的视频表达。",
+    desc: "以视觉氛围、角色亮点和广告节奏构建完整的视频表达。"
   },
   {
     title: "重返未来 1999 03",
     type: "二次元游戏广告",
-    poster: "/assets/strength-visual.png",
+    poster: "/assets/video-posters/project-11.jpg",
     videoUrl: "/assets/videos/project-11-重返未来1999-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "CREATIVE TEST",
-    desc: "快速产出多版本创意方向，用画面结构和节奏差异支撑投放测试。",
+    desc: "快速产出多版本创意方向，用画面结构和节奏差异支撑投放测试。"
   },
   {
     title: "重返未来 1999 04",
     type: "二次元游戏广告",
-    poster: "/assets/strength-cards.png",
+    poster: "/assets/video-posters/project-12.jpg",
     videoUrl: "/assets/videos/project-12-重返未来1999-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "VISUAL SYSTEM",
-    desc: "延续项目视觉语言，并将角色、信息和镜头节奏整合为广告素材。",
+    desc: "延续项目视觉语言，并将角色、信息和镜头节奏整合为广告素材。"
   },
   {
     title: "重返未来 1999 05",
     type: "二次元游戏广告",
-    poster: "/assets/project-layout-reference.png",
+    poster: "/assets/video-posters/project-13.jpg",
     videoUrl: "/assets/videos/project-13-重返未来1999-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "PERFORMANCE",
-    desc: "在保持美术调性的同时，突出素材首秒吸引力和投放转化效率。",
+    desc: "在保持美术调性的同时，突出素材首秒吸引力和投放转化效率。"
   },
   {
     title: "女神异闻录 01",
     type: "游戏视频广告",
-    poster: "/assets/project-01.png",
+    poster: "/assets/video-posters/project-14.jpg",
     videoUrl: "/assets/videos/project-14-女神异闻录-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "GAME AD",
-    desc: "结合项目题材、角色气质与广告节奏，制作适合投放场景的视频素材。",
+    desc: "结合项目题材、角色气质与广告节奏，制作适合投放场景的视频素材。"
   },
   {
     title: "女神异闻录 02",
     type: "游戏视频广告",
-    poster: "/assets/project-02.png",
+    poster: "/assets/video-posters/project-15.jpg",
     videoUrl: "/assets/videos/project-15-女神异闻录-1280x720.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
     tag: "MOTION / AD",
-    desc: "通过动效包装、节奏剪辑和信息收口，增强素材的观看完成度。",
-  },
+    desc: "通过动效包装、节奏剪辑和信息收口，增强素材的观看完成度。"
+  }
 ];
 
 const strengths = [
@@ -502,23 +550,23 @@ function Header({ onContactClick }) {
   return (
     <header className="site-header" aria-label="主导航">
       <a className="brand" href="#hero" aria-label="返回首页">
-        <span className="brand-mark">CM</span>
+        <EditableText editKey="header.brandMark" className="brand-mark">CM</EditableText>
         <span>
-          <strong>MINGTU</strong>
-          <small>PORTFOLIO</small>
+          <EditableText as="strong" editKey="header.brandName">MINGTU</EditableText>
+          <EditableText as="small" editKey="header.brandLabel">PORTFOLIO</EditableText>
         </span>
       </a>
 
       <nav className="nav-links" aria-label="页面导航">
-        {navItems.map((item) => (
+        {navItems.map((item, index) => (
           <a key={item.href} href={item.href}>
-            {item.label}
+            <EditableText editKey={`nav.${index}.label`}>{item.label}</EditableText>
           </a>
         ))}
       </nav>
 
       <button className="contact-button" type="button" onClick={onContactClick}>
-        联系合作
+        <EditableText editKey="header.contactButton">联系合作</EditableText>
         <ArrowUpRight size={18} aria-hidden="true" />
       </button>
     </header>
@@ -527,6 +575,8 @@ function Header({ onContactClick }) {
 
 function ContactModal({ open, onClose }) {
   if (!open) return null;
+  const contactEmail = editableValue("contact.email", CONTACT_EMAIL);
+  const contactPhone = editableValue("contact.phone", CONTACT_PHONE);
 
   return (
     <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
@@ -540,18 +590,18 @@ function ContactModal({ open, onClose }) {
         <button className="modal-close" type="button" onClick={onClose} aria-label="关闭弹窗">
           <X size={20} aria-hidden="true" />
         </button>
-        <p className="eyebrow">CONTACT / COOPERATION</p>
-        <h2>联系合作</h2>
+        <EditableText as="p" className="eyebrow" editKey="contactModal.eyebrow">CONTACT / COOPERATION</EditableText>
+        <EditableText as="h2" editKey="contactModal.title">联系合作</EditableText>
         <div className="contact-list">
           <div>
             <Phone size={20} aria-hidden="true" />
-            <span>联系电话</span>
-            <strong>{CONTACT_PHONE}</strong>
+            <EditableText editKey="contactModal.phoneLabel">联系电话</EditableText>
+            <EditableText as="strong" editKey="contact.phone">{contactPhone}</EditableText>
           </div>
-          <a href={`mailto:${CONTACT_EMAIL}`}>
+          <a href={`mailto:${contactEmail}`}>
             <Mail size={20} aria-hidden="true" />
-            <span>邮箱</span>
-            <strong>{CONTACT_EMAIL}</strong>
+            <EditableText editKey="contactModal.emailLabel">邮箱</EditableText>
+            <EditableText as="strong" editKey="contact.email">{contactEmail}</EditableText>
           </a>
         </div>
       </div>
@@ -560,22 +610,28 @@ function ContactModal({ open, onClose }) {
 }
 
 function Hero({ onContactClick }) {
+  const contactEmail = editableValue("contact.email", CONTACT_EMAIL);
+
   return (
     <section className="hero section" id="hero">
       <img className="hero-image" src="/assets/hero-static.png" alt="首屏视觉背景" />
       <div className="hero-scrim" />
       <div className="hero-inner page-shell">
         <div className="hero-copy">
-          <p className="eyebrow">WELCOME TO PLATO ERA</p>
-          <p className="role-line">VIDEO DESIGNER / AI DESIGNER / BRAND DESIGNER</p>
+          <EditableText as="p" className="eyebrow" editKey="hero.eyebrow">WELCOME TO PLATO ERA</EditableText>
+          <EditableText as="p" className="role-line" editKey="hero.roleLine">
+            VIDEO DESIGNER / AI DESIGNER / BRAND DESIGNER
+          </EditableText>
           <h1>
-            CM
-            <span>Plato</span>
+            <EditableText editKey="hero.titleTop">CM</EditableText>
+            <EditableText as="span" editKey="hero.titleBottom">Plato</EditableText>
           </h1>
-          <div className="title-bar">MINGTU / VISUAL CREATOR</div>
-          <p className="hero-text">
+          <EditableText as="div" className="title-bar" editKey="hero.titleBar">
+            MINGTU / VISUAL CREATOR
+          </EditableText>
+          <EditableText as="p" className="hero-text" editKey="hero.text">
             6 年游戏视频与海外买量素材制作经验。擅长把游戏卖点翻译成有节奏、有记忆点、可验证的视觉内容。
-          </p>
+          </EditableText>
         </div>
 
         <div className="hero-panel" aria-label="核心身份">
@@ -585,12 +641,12 @@ function Hero({ onContactClick }) {
             ))}
           </div>
           <div>
-            <span>BASED IN</span>
-            <strong>GUANGZHOU · CN</strong>
+            <EditableText editKey="heroPanel.basedLabel">BASED IN</EditableText>
+            <EditableText as="strong" editKey="heroPanel.basedValue">GUANGZHOU · CN</EditableText>
           </div>
           <div>
-            <span>CONTACT</span>
-            <strong>{CONTACT_EMAIL}</strong>
+            <EditableText editKey="heroPanel.contactLabel">CONTACT</EditableText>
+            <EditableText as="strong" editKey="contact.email">{contactEmail}</EditableText>
           </div>
         </div>
       </div>
@@ -599,6 +655,8 @@ function Hero({ onContactClick }) {
 }
 
 function Profile() {
+  const contactEmail = editableValue("contact.email", CONTACT_EMAIL);
+
   return (
     <section className="profile section motion-section" id="profile">
       <span className="section-ghost-title" aria-hidden="true">
@@ -610,44 +668,48 @@ function Profile() {
         </div>
 
         <div className="profile-copy motion-card">
-          <p className="eyebrow">ABOUT / PROFESSIONAL PROFILE</p>
-          <h2>陈明图</h2>
-          <p className="profile-role">个人工作简介 / MINGTU VISUAL CREATOR</p>
-          <p className="lead">
+          <EditableText as="p" className="eyebrow" editKey="profile.eyebrow">ABOUT / PROFESSIONAL PROFILE</EditableText>
+          <EditableText as="h2" editKey="profile.name">陈明图</EditableText>
+          <EditableText as="p" className="profile-role" editKey="profile.role">
+            个人工作简介 / MINGTU VISUAL CREATOR
+          </EditableText>
+          <EditableText as="p" className="lead" editKey="profile.lead">
             6 年游戏视频与海外买量素材制作经验。擅长把游戏卖点翻译成有节奏、有记忆点、可验证的视觉内容。
-          </p>
-          <p>
+          </EditableText>
+          <EditableText as="p" editKey="profile.body">
             我能独立完成创意提案、脚本分镜、剪辑、动效包装、合成及多规格交付，并结合投放反馈快速迭代素材。AI 工具已融入日常视频制作，用于提升效率与扩展视觉方案。
-          </p>
+          </EditableText>
 
           <div className="profile-meta">
-            <a href={`mailto:${CONTACT_EMAIL}`}>
+            <a href={`mailto:${contactEmail}`}>
               <Mail size={17} aria-hidden="true" />
-              {CONTACT_EMAIL}
+              <EditableText editKey="contact.email">{contactEmail}</EditableText>
             </a>
             <span>
               <MapPin size={17} aria-hidden="true" />
-              Guangzhou · CN
+              <EditableText editKey="profile.location">Guangzhou · CN</EditableText>
             </span>
           </div>
 
           <div className="skill-pills" aria-label="设计工具">
-            {["AE", "PR", "PS", "AI", "AI TOOLS", "BRAND"].map((skill) => (
-              <span key={skill}>{skill}</span>
+            {["AE", "PR", "PS", "AI", "AI TOOLS", "BRAND"].map((skill, index) => (
+              <EditableText editKey={`skills.${index}`} key={skill}>{skill}</EditableText>
             ))}
           </div>
         </div>
       </div>
 
       <div className="page-shell stats-grid" aria-label="项目数据">
-        {stats.map((item) => (
+        {stats.map((item, index) => (
           <article className="stat-item motion-card" key={item.sub}>
             <strong>
-              {item.value}
-              {item.suffix && <sup>{item.suffix}</sup>}
+              <EditableText editKey={`stats.${index}.value`}>{item.value}</EditableText>
+              {item.suffix && (
+                <EditableText as="sup" editKey={`stats.${index}.suffix`}>{item.suffix}</EditableText>
+              )}
             </strong>
-            <span>{item.label}</span>
-            <small>{item.sub}</small>
+            <EditableText editKey={`stats.${index}.label`}>{item.label}</EditableText>
+            <EditableText as="small" editKey={`stats.${index}.sub`}>{item.sub}</EditableText>
           </article>
         ))}
       </div>
@@ -665,8 +727,8 @@ function Experience() {
         <div className="section-heading">
           <p className="section-index">01</p>
           <div>
-            <p className="eyebrow">EXPERIENCE / CAREER PATH</p>
-            <h2>个人经历</h2>
+            <EditableText as="p" className="eyebrow" editKey="experience.eyebrow">EXPERIENCE / CAREER PATH</EditableText>
+            <EditableText as="h2" editKey="experience.title">个人经历</EditableText>
           </div>
         </div>
       </div>
@@ -685,12 +747,16 @@ function ExperienceTimeline() {
           {jobs.map((job, index) => (
             <article className="timeline-row motion-card" key={job.company}>
               <span className="timeline-no">{String(index + 1).padStart(2, "0")}</span>
-              <strong className="timeline-period">{job.period}</strong>
+              <EditableText as="strong" className="timeline-period" editKey={`jobs.${index}.period`}>
+                {job.period}
+              </EditableText>
               <div>
-                <h3>{job.company}</h3>
-                <p>{job.role}</p>
+                <EditableText as="h3" editKey={`jobs.${index}.company`}>{job.company}</EditableText>
+                <EditableText as="p" editKey={`jobs.${index}.role`}>{job.role}</EditableText>
               </div>
-              <p className="timeline-detail">{job.detail}</p>
+              <EditableText as="p" className="timeline-detail" editKey={`jobs.${index}.detail`}>
+                {job.detail}
+              </EditableText>
             </article>
           ))}
         </div>
@@ -700,11 +766,13 @@ function ExperienceTimeline() {
 }
 
 function Projects() {
-  const canManageProjects = new URLSearchParams(window.location.search).get("edit") === "1";
+  const canManageProjects = IS_EDIT_MODE;
   const [projects, setProjects] = useState(initialProjects);
   const [activeIndex, setActiveIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [savingProjects, setSavingProjects] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
   const [playButtonVisible, setPlayButtonVisible] = useState(false);
   const fileInputRef = useRef(null);
   const videoRef = useRef(null);
@@ -763,6 +831,8 @@ function Projects() {
             orientation: media.orientation,
             videoUrl,
             fileName: file.name,
+            pendingFile: file,
+            pendingPoster: media.poster,
           };
         }),
       );
@@ -804,8 +874,7 @@ function Projects() {
   };
 
   const updateProjectText = (field, value) => {
-    const nextValue = value.trim();
-    if (!nextValue) return;
+    const nextValue = String(value ?? "");
 
     setProjects((current) =>
       current.map((project, index) =>
@@ -833,6 +902,95 @@ function Projects() {
     window.setTimeout(() => fileInputRef.current?.click(), 0);
   };
 
+  const saveProjectsToLocal = async () => {
+    if (!canManageProjects || savingProjects) return;
+
+    setSavingProjects(true);
+    setSaveMessage("正在保存到本地项目...");
+
+    try {
+      const savedProjects = [];
+
+      for (const [index, project] of projects.entries()) {
+        let nextProject = { ...project };
+
+        if (project.pendingFile) {
+          const videoResponse = await fetch("/__local-admin/upload-video", {
+            method: "POST",
+            headers: {
+              "Content-Type": project.pendingFile.type || "application/octet-stream",
+              "X-Project-Index": String(index + 1),
+              "X-Project-Title": project.title,
+              "X-File-Name": project.pendingFile.name,
+            },
+            body: project.pendingFile,
+          });
+
+          if (!videoResponse.ok) {
+            throw new Error(`视频保存失败：${project.title}`);
+          }
+
+          const videoResult = await videoResponse.json();
+          nextProject.videoUrl = videoResult.videoUrl;
+        }
+
+        if (project.pendingPoster || String(project.poster || "").startsWith("data:image/")) {
+          const posterResponse = await fetch("/__local-admin/upload-poster", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              index: index + 1,
+              title: project.title,
+              dataUrl: project.pendingPoster || project.poster,
+            }),
+          });
+
+          if (!posterResponse.ok) {
+            throw new Error(`海报保存失败：${project.title}`);
+          }
+
+          const posterResult = await posterResponse.json();
+          nextProject.poster = posterResult.poster;
+        }
+
+        delete nextProject.pendingFile;
+        delete nextProject.pendingPoster;
+        delete nextProject.fileName;
+        savedProjects.push(nextProject);
+      }
+
+      const saveResponse = await fetch("/__local-admin/save-projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ projects: savedProjects }),
+      });
+
+      if (!saveResponse.ok) {
+        throw new Error("项目配置写入失败");
+      }
+
+      const textResponse = await fetch("/__local-admin/save-texts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texts: collectEditableTexts() }),
+      });
+
+      if (!textResponse.ok) {
+        throw new Error("全站文字写入失败");
+      }
+
+      projectsRef.current.forEach((project) => {
+        if (project.videoUrl?.startsWith("blob:")) URL.revokeObjectURL(project.videoUrl);
+      });
+      setProjects(savedProjects);
+      setSaveMessage("已保存到本地项目。请用 GitHub Desktop 提交并 Push。");
+    } catch (error) {
+      setSaveMessage(error.message || "保存失败");
+    } finally {
+      setSavingProjects(false);
+    }
+  };
+
   return (
     <section className="projects section motion-section" id="projects">
       <span className="section-ghost-title" aria-hidden="true">
@@ -842,18 +1000,25 @@ function Projects() {
         <div className="section-heading projects-heading">
           <p className="section-index">02</p>
           <div>
-            <p className="eyebrow">SELECTED WORK</p>
+            <EditableText as="p" className="eyebrow" editKey="projects.eyebrow">SELECTED WORK</EditableText>
             <h2>
-              游戏
-              <span>项目</span>
+              <EditableText editKey="projects.titleTop">游戏</EditableText>
+              <EditableText as="span" editKey="projects.titleBottom">项目</EditableText>
             </h2>
           </div>
           <div className="projects-tools">
-            <p>跨题材、跨市场的游戏视频与海外买量创意实践。</p>
+            <EditableText as="p" editKey="projects.description">
+              跨题材、跨市场的游戏视频与海外买量创意实践。
+            </EditableText>
             {canManageProjects && (
               <button type="button" onClick={uploadVideo}>
                 上传作品视频
                 <Plus size={16} aria-hidden="true" />
+              </button>
+            )}
+            {canManageProjects && (
+              <button type="button" onClick={saveProjectsToLocal} disabled={savingProjects}>
+                {savingProjects ? "保存中..." : "保存到本地项目"}
               </button>
             )}
           </div>
@@ -963,9 +1128,9 @@ function Projects() {
               {activeProject.desc}
             </p>
             <div className="project-tags">
-              <span>Creative</span>
-              <span>Motion</span>
-              <span>Performance</span>
+              <EditableText editKey="projects.tag.0">Creative</EditableText>
+              <EditableText editKey="projects.tag.1">Motion</EditableText>
+              <EditableText editKey="projects.tag.2">Performance</EditableText>
             </div>
           </aside>
 
@@ -1018,6 +1183,7 @@ function Projects() {
           />
         )}
         {canManageProjects && uploading && <p className="upload-status">正在读取视频首帧...</p>}
+        {canManageProjects && saveMessage && <p className="upload-status">{saveMessage}</p>}
       </div>
     </section>
   );
@@ -1032,36 +1198,43 @@ function Strengths() {
       <div className="page-shell">
         <div className="strengths-hero">
           <div>
-            <p className="eyebrow">PERFORMANCE RECORD / 入职以来</p>
+            <EditableText as="p" className="eyebrow" editKey="strengths.eyebrow">
+              PERFORMANCE RECORD / 入职以来
+            </EditableText>
             <h2>
-              不只让画面
-              <span>好看。</span>
+              <EditableText editKey="strengths.titleTop">不只让画面</EditableText>
+              <EditableText as="span" editKey="strengths.titleBottom">好看。</EditableText>
             </h2>
           </div>
-          <p>从创意到落地，从审美到数据，用完整链路保障每一次表达。</p>
+          <EditableText as="p" editKey="strengths.description">
+            从创意到落地，从审美到数据，用完整链路保障每一次表达。
+          </EditableText>
         </div>
 
         <div className="record-panel motion-card">
-          <p className="motion-card">
+          <EditableText as="p" className="motion-card" editKey="record.description">
             实际产出持续高于产能指标，稳定完成高质量交付；素材消耗长期保持设计部前三，两次个人总消耗排行第一。
-          </p>
+          </EditableText>
           <div className="motion-card">
             <strong>
-              120<span>%</span>
+              <EditableText editKey="record.deliveryValue">120</EditableText>
+              <EditableText as="span" editKey="record.deliveryUnit">%</EditableText>
             </strong>
-            <small>平均月出交付率 / DELIVERY RATE</small>
+            <EditableText as="small" editKey="record.deliveryLabel">平均月出交付率 / DELIVERY RATE</EditableText>
           </div>
           <div className="motion-card">
             <strong>
-              8W<span>USD</span>
+              <EditableText editKey="record.spendValue">8W</EditableText>
+              <EditableText as="span" editKey="record.spendUnit">USD</EditableText>
             </strong>
-            <small>每月平均消耗 / MONTHLY SPEND</small>
+            <EditableText as="small" editKey="record.spendLabel">每月平均消耗 / MONTHLY SPEND</EditableText>
           </div>
           <div className="motion-card">
             <strong>
-              TOP<span>3</span>
+              <EditableText editKey="record.rankingValue">TOP</EditableText>
+              <EditableText as="span" editKey="record.rankingUnit">3</EditableText>
             </strong>
-            <small>设计部长期排名 / DESIGN RANKING</small>
+            <EditableText as="small" editKey="record.rankingLabel">设计部长期排名 / DESIGN RANKING</EditableText>
           </div>
         </div>
 
@@ -1074,9 +1247,9 @@ function Strengths() {
                 <span className="icon-badge">
                   <Icon size={22} aria-hidden="true" />
                 </span>
-                <p>{item.kicker}</p>
-                <h3>{item.title}</h3>
-                <small>{item.text}</small>
+                <EditableText as="p" editKey={`strengths.cards.${index}.kicker`}>{item.kicker}</EditableText>
+                <EditableText as="h3" editKey={`strengths.cards.${index}.title`}>{item.title}</EditableText>
+                <EditableText as="small" editKey={`strengths.cards.${index}.text`}>{item.text}</EditableText>
               </article>
             );
           })}
@@ -1093,24 +1266,26 @@ function Contact({ onContactClick }) {
         CONTACT
       </span>
       <div className="page-shell contact-inner">
-        <p className="eyebrow">LET'S BUILD THE NEXT VISUAL SYSTEM</p>
-        <h2>让项目从第一眼开始被记住。</h2>
-        <p>
+        <EditableText as="p" className="eyebrow" editKey="contact.eyebrow">
+          LET'S BUILD THE NEXT VISUAL SYSTEM
+        </EditableText>
+        <EditableText as="h2" editKey="contact.title">让项目从第一眼开始被记住。</EditableText>
+        <EditableText as="p" editKey="contact.description">
           可合作方向：游戏视频广告、AI 视觉探索、品牌视觉包装、海外买量素材、项目视觉系统搭建。
-        </p>
+        </EditableText>
         <div className="contact-actions motion-card">
           <button className="primary-link" type="button" onClick={onContactClick}>
             <Mail size={20} aria-hidden="true" />
-            查看联系方式
+            <EditableText editKey="contact.primaryButton">查看联系方式</EditableText>
           </button>
           <a className="secondary-link" href="#hero">
-            返回顶部
+            <EditableText editKey="contact.secondaryButton">返回顶部</EditableText>
             <ArrowUpRight size={18} aria-hidden="true" />
           </a>
         </div>
         <div className="contact-footer motion-card">
-          <span>CM / MINGTU PORTFOLIO</span>
-          <span>VIDEO · AI · BRAND DESIGN</span>
+          <EditableText editKey="contact.footerLeft">CM / MINGTU PORTFOLIO</EditableText>
+          <EditableText editKey="contact.footerRight">VIDEO · AI · BRAND DESIGN</EditableText>
         </div>
       </div>
     </section>
