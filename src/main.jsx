@@ -831,8 +831,8 @@ function Projects() {
   }, [projects]);
 
   useEffect(() => {
-    if (playing && videoRef.current) {
-      videoRef.current.play().catch(() => setPlaying(false));
+    if (!playing && videoRef.current) {
+      videoRef.current.pause();
     }
   }, [playing, activeIndex]);
 
@@ -886,12 +886,30 @@ function Projects() {
     }
   };
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     if (!activeProject.videoUrl) {
       if (canManageProjects) uploadVideo();
       return;
     }
-    setPlaying((current) => !current);
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!video.paused) {
+      video.pause();
+      setPlaying(false);
+      return;
+    }
+
+    try {
+      // Keep play() inside the tap/click handler so mobile browsers preserve user activation.
+      await video.play();
+      setPlaying(true);
+      setSaveMessage("");
+    } catch {
+      setPlaying(false);
+      setSaveMessage("当前视频暂时无法播放，请稍后重试或更换视频文件。");
+    }
   };
 
   const handleStagePointerMove = (event) => {
@@ -1084,20 +1102,26 @@ function Projects() {
               decoding="async"
               aria-hidden="true"
             />
-            {playing && activeProject.videoUrl ? (
+            {activeProject.videoUrl && (
               <video
                 key={`${activeIndex}-${activeProject.videoUrl}`}
+                className={playing ? "stage-video is-playing" : "stage-video"}
                 ref={videoRef}
                 src={activeProject.videoUrl}
                 poster={activeProject.poster}
-                controls
-                preload="metadata"
+                controls={playing}
+                preload="none"
                 playsInline
                 onEnded={() => setPlaying(false)}
+                onPlay={() => setPlaying(true)}
+                onPause={() => setPlaying(false)}
+                onError={() => setSaveMessage("当前视频暂时无法播放，请稍后重试或更换视频文件。")}
               />
-            ) : (
+            )}
+            {!playing && (
               <img
                 key={`poster-${activeIndex}-${activeProject.poster}`}
+                className="stage-poster"
                 src={activeProject.poster}
                 alt={`${activeProject.title}作品首帧`}
                 loading="eager"

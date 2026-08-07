@@ -851,6 +851,25 @@ video {
   transform: none !important;
 }
 
+.stage-media .stage-video {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.stage-media .stage-video.is-playing {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.stage-media .stage-poster {
+  z-index: 2;
+}
+
 .stage-media .stage-media-bg {
   position: absolute;
   inset: auto;
@@ -929,6 +948,14 @@ video {
 
 .play-button:hover {
   background: rgba(16, 12, 28, 0.76);
+}
+
+@media (max-width: 900px), (pointer: coarse) {
+  .stage-media .play-button {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .float-icon {
