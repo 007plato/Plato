@@ -872,21 +872,38 @@ video {
 .play-button {
   position: absolute;
   z-index: 3;
-  left: 32px;
-  bottom: 28px;
+  top: 50%;
+  left: 50%;
   grid-auto-flow: column;
   gap: 10px;
-  min-width: 104px;
-  min-height: 48px;
-  padding: 0 20px;
+  min-width: 118px;
+  min-height: 54px;
+  padding: 0 24px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
-  background: rgba(16, 12, 28, 0.42);
+  background: rgba(16, 12, 28, 0.58);
   color: rgba(255, 245, 231, 0.96);
   backdrop-filter: blur(16px);
   font-size: 12px;
   font-weight: 950;
   letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.stage-media.show-play-button .play-button {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.play-button:hover {
+  background: rgba(16, 12, 28, 0.76);
 }
 
 .float-icon {

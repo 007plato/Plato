@@ -67,39 +67,169 @@ const jobs = [
 
 const initialProjects = [
   {
-    title: "海贼王",
+    title: "海贼王 01",
     type: "海外买量创意系列",
     poster: "/assets/project-layout-reference.png",
+    videoUrl: "/assets/videos/project-01-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
     tag: "消耗排行 TOP 1 × 2",
     desc: "围绕角色卖点和节奏记忆点制作高转化视频素材，支撑重点地区投放。",
   },
   {
-    title: "寻道大千",
-    type: "国风游戏广告",
+    title: "海贼王 02",
+    type: "海外买量创意系列",
     poster: "/assets/project-02.png",
-    tag: "STYLE / MOTION",
-    desc: "将国风视觉、轻剧情节奏与素材包装结合，快速完成多版本创意测试。",
+    videoUrl: "/assets/videos/project-02-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "CREATIVE / MOTION",
+    desc: "围绕活动节点、角色卖点与投放节奏制作横版视频素材，适配海外买量场景。",
   },
   {
-    title: "AI 视觉实验",
-    type: "AI Design System",
-    poster: "/assets/strength-visual.png",
-    tag: "AI-POWERED",
-    desc: "使用 AI 工具拓展视觉探索、角色风格和镜头方案，提高前期创意效率。",
-  },
-  {
-    title: "品牌包装",
-    type: "Brand Motion",
-    poster: "/assets/strength-cards.png",
-    tag: "BRAND / VISUAL",
-    desc: "把品牌气质、信息层级和视觉节奏整合为可复用的包装系统。",
-  },
-  {
-    title: "性能广告",
-    type: "Performance Ads",
+    title: "海贼王 03",
+    type: "海外买量创意系列",
     poster: "/assets/project-01.png",
+    videoUrl: "/assets/videos/project-03-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "PERFORMANCE ADS",
+    desc: "以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。",
+  },
+  {
+    title: "海贼王 04",
+    type: "海外买量创意系列",
+    poster: "/assets/project-layout-reference.png",
+    videoUrl: "/assets/videos/project-04-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "VIDEO / AD",
+    desc: "通过镜头节奏、信息层级和视觉冲击力，强化素材在短时间内的吸引力。",
+  },
+  {
+    title: "海贼王 05",
+    type: "海外买量创意系列",
+    poster: "/assets/project-02.png",
+    videoUrl: "/assets/videos/project-05-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
     tag: "DATA DRIVEN",
     desc: "围绕点击、完播和转化数据持续调整镜头、节奏、文案与素材结构。",
+  },
+  {
+    title: "海贼王 06",
+    type: "海外买量创意系列",
+    poster: "/assets/strength-visual.png",
+    videoUrl: "/assets/videos/project-06-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "MOTION DESIGN",
+    desc: "结合角色素材、场景包装和节奏化剪辑，形成适合投放测试的视频版本。",
+  },
+  {
+    title: "海贼王 07",
+    type: "海外买量创意系列",
+    poster: "/assets/strength-cards.png",
+    videoUrl: "/assets/videos/project-07-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "AD CREATIVE",
+    desc: "从画面吸引、卖点表达和收口转化三个层面组织视频内容。",
+  },
+  {
+    title: "海贼王 08",
+    type: "海外买量创意系列",
+    poster: "/assets/project-layout-reference.png",
+    videoUrl: "/assets/videos/project-08-海贼王-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "GLOBAL MARKET",
+    desc: "面向海外投放语境进行包装和节奏处理，提升素材辨识度与转化表现。",
+  },
+  {
+    title: "重返未来 1999 01",
+    type: "二次元游戏广告",
+    poster: "/assets/project-01.png",
+    videoUrl: "/assets/videos/project-09-重返未来1999-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "STYLE / MOTION",
+    desc: "围绕二次元美术气质与游戏内容卖点，制作具备节奏记忆点的视频素材。",
+  },
+  {
+    title: "重返未来 1999 02",
+    type: "二次元游戏广告",
+    poster: "/assets/project-02.png",
+    videoUrl: "/assets/videos/project-10-重返未来1999-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "NARRATIVE AD",
+    desc: "以视觉氛围、角色亮点和广告节奏构建完整的视频表达。",
+  },
+  {
+    title: "重返未来 1999 03",
+    type: "二次元游戏广告",
+    poster: "/assets/strength-visual.png",
+    videoUrl: "/assets/videos/project-11-重返未来1999-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "CREATIVE TEST",
+    desc: "快速产出多版本创意方向，用画面结构和节奏差异支撑投放测试。",
+  },
+  {
+    title: "重返未来 1999 04",
+    type: "二次元游戏广告",
+    poster: "/assets/strength-cards.png",
+    videoUrl: "/assets/videos/project-12-重返未来1999-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "VISUAL SYSTEM",
+    desc: "延续项目视觉语言，并将角色、信息和镜头节奏整合为广告素材。",
+  },
+  {
+    title: "重返未来 1999 05",
+    type: "二次元游戏广告",
+    poster: "/assets/project-layout-reference.png",
+    videoUrl: "/assets/videos/project-13-重返未来1999-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "PERFORMANCE",
+    desc: "在保持美术调性的同时，突出素材首秒吸引力和投放转化效率。",
+  },
+  {
+    title: "女神异闻录 01",
+    type: "游戏视频广告",
+    poster: "/assets/project-01.png",
+    videoUrl: "/assets/videos/project-14-女神异闻录-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "GAME AD",
+    desc: "结合项目题材、角色气质与广告节奏，制作适合投放场景的视频素材。",
+  },
+  {
+    title: "女神异闻录 02",
+    type: "游戏视频广告",
+    poster: "/assets/project-02.png",
+    videoUrl: "/assets/videos/project-15-女神异闻录-1280x720.mp4",
+    mediaWidth: 1280,
+    mediaHeight: 720,
+    orientation: "wide",
+    tag: "MOTION / AD",
+    desc: "通过动效包装、节奏剪辑和信息收口，增强素材的观看完成度。",
   },
 ];
 
@@ -575,6 +705,7 @@ function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [playButtonVisible, setPlayButtonVisible] = useState(false);
   const fileInputRef = useRef(null);
   const videoRef = useRef(null);
   const projectsRef = useRef(projects);
@@ -651,9 +782,20 @@ function Projects() {
     setPlaying((current) => !current);
   };
 
+  const handleStagePointerMove = (event) => {
+    if (!activeProject.videoUrl && !canManageProjects) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.hypot(event.clientX - centerX, event.clientY - centerY);
+    setPlayButtonVisible(distance <= 200);
+  };
+
   const switchProject = (index) => {
     setActiveIndex(index);
     setPlaying(false);
+    setPlayButtonVisible(false);
   };
 
   const moveProject = (direction) => {
@@ -718,7 +860,14 @@ function Projects() {
         </div>
 
         <div className="project-stage motion-card">
-          <div className={getProjectMediaClass(activeProject)} style={activeMediaStyle}>
+          <div
+            className={`${getProjectMediaClass(activeProject)} ${
+              playButtonVisible ? "show-play-button" : ""
+            }`}
+            style={activeMediaStyle}
+            onPointerMove={handleStagePointerMove}
+            onPointerLeave={() => setPlayButtonVisible(false)}
+          >
             {playing && activeProject.videoUrl ? (
               <video
                 className="stage-media-bg"
