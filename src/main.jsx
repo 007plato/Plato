@@ -418,7 +418,11 @@ function usePortfolioMotion() {
       gsap.defaults({ ease: "power4.out" });
 
       gsap.set(".site-header", { autoAlpha: 0, y: -110 });
-      gsap.set(".hero-image", { scale: 1.18, filter: "blur(10px) saturate(1.22)" });
+      const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+      const introBlur = coarsePointer ? "blur(0px)" : "blur(10px)";
+      const cardBlur = coarsePointer ? "blur(0px)" : "blur(10px)";
+
+      gsap.set(".hero-image", { scale: 1.18, filter: `${introBlur} saturate(1.22)` });
       gsap.set(".hero-copy .eyebrow, .role-line, .title-bar, .hero-text", {
         autoAlpha: 0,
         y: 42,
@@ -428,7 +432,7 @@ function usePortfolioMotion() {
         y: 130,
         scaleX: 0.68,
         clipPath: "inset(0 100% 0 0)",
-        filter: "blur(18px)",
+        filter: coarsePointer ? "blur(0px)" : "blur(18px)",
         transformOrigin: "left center",
       });
       gsap.set(".hero-panel", {
@@ -526,10 +530,10 @@ function usePortfolioMotion() {
           .from(
             cards,
             {
-              autoAlpha: 0,
-              y: 86,
-              scale: 0.965,
-              filter: "blur(10px)",
+            autoAlpha: 0,
+            y: 86,
+            scale: 0.965,
+              filter: cardBlur,
               stagger: 0.13,
               duration: 1.25,
               ease: "power4.out",
@@ -654,7 +658,13 @@ function Hero({ onContactClick }) {
 
   return (
     <section className="hero section" id="hero">
-      <img className="hero-image" src="/assets/hero-static.png" alt="首屏视觉背景" />
+      <img
+        className="hero-image"
+        src="/assets/hero.webp"
+        alt="首屏视觉背景"
+        fetchPriority="high"
+        decoding="async"
+      />
       <div className="hero-scrim" />
       <div className="hero-inner page-shell">
         <div className="hero-copy">
@@ -704,7 +714,13 @@ function Profile() {
       </span>
       <div className="page-shell profile-grid">
         <div className="portrait-card profile-shot motion-card motion-reveal motion-parallax">
-          <img src="/assets/experience-portrait.png" alt="陈明图个人经历视觉卡片" />
+          <img
+            src="/assets/hero.webp"
+            alt="陈明图个人经历视觉卡片"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+          />
         </div>
 
         <div className="profile-copy motion-card">
@@ -1098,7 +1114,8 @@ function Projects() {
               className="stage-media-bg"
               src={activeProject.poster}
               alt=""
-              loading="eager"
+              loading="lazy"
+              fetchPriority="low"
               decoding="async"
               aria-hidden="true"
             />
@@ -1124,7 +1141,8 @@ function Projects() {
                 className="stage-poster"
                 src={activeProject.poster}
                 alt={`${activeProject.title}作品首帧`}
-                loading="eager"
+                loading="lazy"
+                fetchPriority="low"
                 decoding="async"
               />
             )}

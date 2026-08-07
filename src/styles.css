@@ -134,6 +134,11 @@ video {
 .site-header {
   backface-visibility: hidden;
   transform-style: preserve-3d;
+}
+
+.hero-image,
+.hero h1,
+.site-header {
   will-change: transform, opacity;
 }
 
@@ -1321,7 +1326,7 @@ video {
   inset: -10px;
   z-index: 0;
   content: "";
-  background: url("/assets/contact-bottom.png") center / cover;
+  background: url("/assets/contact-bottom.webp") center / cover;
   filter: blur(2px);
   opacity: 0.9;
   transform: scale(1.02);
