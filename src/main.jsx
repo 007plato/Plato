@@ -145,7 +145,7 @@ const initialProjects = [
     mediaHeight: 720,
     orientation: "wide",
     tag: "PERFORMANCE ADS",
-    desc: "以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。"
+    desc: "AI生成画面，以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。"
   },
   {
     title: "海贼王 04",
@@ -623,8 +623,8 @@ function Hero({ onContactClick }) {
             VIDEO DESIGNER / AI DESIGNER / BRAND DESIGNER
           </EditableText>
           <h1>
-            <EditableText editKey="hero.titleTop">CM</EditableText>
-            <EditableText as="span" editKey="hero.titleBottom">Plato</EditableText>
+            <EditableText as="span" className="hero-title-main" editKey="hero.titleTop">CM</EditableText>
+            <EditableText as="span" className="hero-title-script" editKey="hero.titleBottom">Plato</EditableText>
           </h1>
           <EditableText as="div" className="title-bar" editKey="hero.titleBar">
             MINGTU / VISUAL CREATOR
@@ -1002,8 +1002,8 @@ function Projects() {
           <div>
             <EditableText as="p" className="eyebrow" editKey="projects.eyebrow">SELECTED WORK</EditableText>
             <h2>
-              <EditableText editKey="projects.titleTop">游戏</EditableText>
-              <EditableText as="span" editKey="projects.titleBottom">项目</EditableText>
+              <EditableText as="span" className="projects-title-top" editKey="projects.titleTop">游戏</EditableText>
+              <EditableText as="span" className="projects-title-bottom" editKey="projects.titleBottom">项目</EditableText>
             </h2>
           </div>
           <div className="projects-tools">
@@ -1033,25 +1033,22 @@ function Projects() {
             onPointerMove={handleStagePointerMove}
             onPointerLeave={() => setPlayButtonVisible(false)}
           >
+            <img
+              className="stage-media-bg"
+              src={activeProject.poster}
+              alt=""
+              loading="eager"
+              decoding="async"
+              aria-hidden="true"
+            />
             {playing && activeProject.videoUrl ? (
               <video
-                className="stage-media-bg"
-                src={activeProject.videoUrl}
-                muted
-                autoPlay
-                loop
-                playsInline
-                aria-hidden="true"
-              />
-            ) : (
-              <img className="stage-media-bg" src={activeProject.poster} alt="" aria-hidden="true" />
-            )}
-            {playing && activeProject.videoUrl ? (
-              <video
+                key={`${activeIndex}-${activeProject.videoUrl}`}
                 ref={videoRef}
                 src={activeProject.videoUrl}
                 poster={activeProject.poster}
                 controls
+                preload="metadata"
                 playsInline
                 onEnded={() => setPlaying(false)}
               />
@@ -1059,6 +1056,8 @@ function Projects() {
               <img
                 src={activeProject.poster}
                 alt={`${activeProject.title}作品首帧`}
+                loading="eager"
+                decoding="async"
               />
             )}
 
@@ -1156,7 +1155,7 @@ function Projects() {
                   onClick={() => switchProject(index)}
                   aria-label={`切换到 ${project.title}`}
                 >
-                  <img src={project.poster} alt="" />
+                  <img src={project.poster} alt="" loading="lazy" decoding="async" />
                 </button>
                 );
               })}

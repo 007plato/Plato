@@ -317,7 +317,12 @@ video {
   text-shadow: 0 24px 44px rgba(0, 0, 0, 0.28);
 }
 
-.hero h1 span {
+.hero h1 .hero-title-main {
+  display: inline-block;
+  color: inherit;
+}
+
+.hero h1 .hero-title-script {
   position: absolute;
   left: 8%;
   bottom: 0.07em;
@@ -742,10 +747,19 @@ video {
   max-width: 360px;
   color: #ffedcf;
   font-size: 88px;
+  line-height: 0.9;
 }
 
-.projects-heading h2 span {
+.projects-heading h2 .projects-title-top {
   display: block;
+  width: max-content;
+  color: #ffedcf;
+}
+
+.projects-heading h2 .projects-title-bottom {
+  display: block;
+  width: max-content;
+  margin-top: 0.12em;
   margin-left: 102px;
   color: #ffd37a;
 }
