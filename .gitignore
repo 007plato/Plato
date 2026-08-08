@@ -6,6 +6,7 @@ dist/
 vite-dev.*.log
 应用开发/
 local-video-backup/
+.pnpm-store/
 
 # Local-only launcher files
 /启动本地编辑器.cmd

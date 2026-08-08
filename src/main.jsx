@@ -29,6 +29,13 @@ const CONTACT_PHONE = "13556676096";
 const PROJECT_FRAME_WIDTH = 1280;
 const PROJECT_FRAME_HEIGHT = 720;
 const IS_EDIT_MODE = new URLSearchParams(window.location.search).get("edit") === "1";
+const VIDEO_CDN_BASE_URL =
+  "https://mingtu-video-cdn-1465459783.cos.ap-guangzhou.myqcloud.com";
+
+function resolveVideoUrl(videoUrl) {
+  if (!videoUrl || !videoUrl.startsWith("/assets/videos/web/")) return videoUrl;
+  return `${VIDEO_CDN_BASE_URL}${videoUrl}`;
+}
 
 function editableValue(editKey, fallback) {
   return contentOverrides[editKey] ?? fallback;
@@ -1179,7 +1186,7 @@ function Projects() {
                   key={`${activeIndex}-${activeProject.videoUrl}`}
                   className={playing ? "stage-video is-playing" : "stage-video"}
                   ref={videoRef}
-                  src={activeProject.videoUrl}
+                  src={resolveVideoUrl(activeProject.videoUrl)}
                   poster={activeProject.poster}
                   controls={playing}
                   preload="metadata"
