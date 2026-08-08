@@ -1209,6 +1209,7 @@ function Projects() {
                   loading="lazy"
                   fetchPriority="low"
                   decoding="async"
+                  onClick={togglePlay}
                 />
               )}
 
