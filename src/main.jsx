@@ -122,7 +122,7 @@ const initialProjects = [
     title: "海贼王 01",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-01.jpg",
-    videoUrl: "/assets/videos/project-01-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-01-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -133,7 +133,7 @@ const initialProjects = [
     title: "海贼王 02",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-02.jpg",
-    videoUrl: "/assets/videos/project-02-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-02-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -144,7 +144,7 @@ const initialProjects = [
     title: "海贼王 03",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-03.jpg",
-    videoUrl: "/assets/videos/project-03-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-03-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -155,7 +155,7 @@ const initialProjects = [
     title: "海贼王 04",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-04.jpg",
-    videoUrl: "/assets/videos/project-04-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-04-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -166,7 +166,7 @@ const initialProjects = [
     title: "海贼王 05",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-05.jpg",
-    videoUrl: "/assets/videos/project-05-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-05-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -177,7 +177,7 @@ const initialProjects = [
     title: "海贼王 06",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-06.jpg",
-    videoUrl: "/assets/videos/project-06-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-06-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -188,7 +188,7 @@ const initialProjects = [
     title: "海贼王 07",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-07.jpg",
-    videoUrl: "/assets/videos/project-07-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-07-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -199,7 +199,7 @@ const initialProjects = [
     title: "海贼王 08",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-08.jpg",
-    videoUrl: "/assets/videos/project-08-海贼王-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-08-海贼王-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -210,7 +210,7 @@ const initialProjects = [
     title: "重返未来 1999 01",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-09.jpg",
-    videoUrl: "/assets/videos/project-09-重返未来1999-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-09-重返未来1999-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -221,7 +221,7 @@ const initialProjects = [
     title: "重返未来 1999 02",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-10.jpg",
-    videoUrl: "/assets/videos/project-10-重返未来1999-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-10-重返未来1999-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -232,7 +232,7 @@ const initialProjects = [
     title: "重返未来 1999 03",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-11.jpg",
-    videoUrl: "/assets/videos/project-11-重返未来1999-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-11-重返未来1999-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -243,7 +243,7 @@ const initialProjects = [
     title: "重返未来 1999 04",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-12.jpg",
-    videoUrl: "/assets/videos/project-12-重返未来1999-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-12-重返未来1999-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -254,7 +254,7 @@ const initialProjects = [
     title: "重返未来 1999 05",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-13-重返未来-1999-05-20260807085855182-rn8rpx.jpg",
-    videoUrl: "/assets/videos/project-13-重返未来-1999-05-20260807085854167-cjbxce.mp4",
+    videoUrl: "/assets/videos/web/project-13-重返未来-1999-05-20260807085854167-cjbxce.web.mp4",
     mediaWidth: 1920,
     mediaHeight: 1080,
     orientation: "wide",
@@ -265,7 +265,7 @@ const initialProjects = [
     title: "女神异闻录 01",
     type: "游戏视频广告",
     poster: "/assets/video-posters/project-14.jpg",
-    videoUrl: "/assets/videos/project-14-女神异闻录-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-14-女神异闻录-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -276,7 +276,7 @@ const initialProjects = [
     title: "女神异闻录 02",
     type: "游戏视频广告",
     poster: "/assets/video-posters/project-15.jpg",
-    videoUrl: "/assets/videos/project-15-女神异闻录-1280x720.mp4",
+    videoUrl: "/assets/videos/web/project-15-女神异闻录-1280x720.web.mp4",
     mediaWidth: 1280,
     mediaHeight: 720,
     orientation: "wide",
@@ -833,6 +833,7 @@ function Projects() {
   const fileInputRef = useRef(null);
   const videoRef = useRef(null);
   const projectsRef = useRef(projects);
+  const seekingRef = useRef(false);
 
   const activeProject = projects[activeIndex];
   const activeMediaStyle = getProjectMediaStyle(activeProject);
@@ -919,6 +920,8 @@ function Projects() {
 
     try {
       // Keep play() inside the tap/click handler so mobile browsers preserve user activation.
+      if (video.ended) video.currentTime = 0;
+      if (video.readyState < 2) video.load();
       await video.play();
       setPlaying(true);
       setSaveMessage("");
@@ -927,6 +930,58 @@ function Projects() {
       setSaveMessage("当前视频暂时无法播放，请稍后重试或更换视频文件。");
     }
   };
+
+  const seekVideoBy = (seconds) => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(video.duration)) return;
+
+    video.currentTime = Math.min(Math.max(video.currentTime + seconds, 0), video.duration);
+  };
+
+  const handleVideoSeeking = () => {
+    const video = videoRef.current;
+    if (video && playing) seekingRef.current = true;
+  };
+
+  const handleVideoSeeked = async () => {
+    const video = videoRef.current;
+    if (!video || !seekingRef.current) return;
+
+    seekingRef.current = false;
+    if (video.paused) {
+      try {
+        await video.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    }
+  };
+
+  const handleVideoPause = () => {
+    const video = videoRef.current;
+    window.setTimeout(() => {
+      if (seekingRef.current || video?.seeking) return;
+      setPlaying(false);
+    }, 0);
+  };
+
+  useEffect(() => {
+    const handleVideoKeyDown = (event) => {
+      if (!playing || !videoRef.current) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        seekVideoBy(-10);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        seekVideoBy(10);
+      }
+    };
+
+    window.addEventListener("keydown", handleVideoKeyDown);
+    return () => window.removeEventListener("keydown", handleVideoKeyDown);
+  }, [playing]);
 
   const handleStagePointerMove = (event) => {
     if (!activeProject.videoUrl && !canManageProjects) return;
@@ -1109,64 +1164,66 @@ function Projects() {
             onPointerMove={handleStagePointerMove}
             onPointerLeave={() => setPlayButtonVisible(false)}
           >
-            <img
-              key={`bg-${activeIndex}-${activeProject.poster}`}
-              className="stage-media-bg"
-              src={activeProject.poster}
-              alt=""
-              loading="lazy"
-              fetchPriority="low"
-              decoding="async"
-              aria-hidden="true"
-            />
-            {activeProject.videoUrl && (
-              <video
-                key={`${activeIndex}-${activeProject.videoUrl}`}
-                className={playing ? "stage-video is-playing" : "stage-video"}
-                ref={videoRef}
-                src={activeProject.videoUrl}
-                poster={activeProject.poster}
-                controls={playing}
-                preload="none"
-                playsInline
-                onEnded={() => setPlaying(false)}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onError={() => setSaveMessage("当前视频暂时无法播放，请稍后重试或更换视频文件。")}
-              />
-            )}
-            {!playing && (
               <img
-                key={`poster-${activeIndex}-${activeProject.poster}`}
-                className="stage-poster"
+                key={`bg-${activeIndex}-${activeProject.poster}`}
+                className="stage-media-bg"
                 src={activeProject.poster}
-                alt={`${activeProject.title}作品首帧`}
+                alt=""
                 loading="lazy"
                 fetchPriority="low"
                 decoding="async"
+                aria-hidden="true"
               />
-            )}
+              {activeProject.videoUrl && (
+                <video
+                  key={`${activeIndex}-${activeProject.videoUrl}`}
+                  className={playing ? "stage-video is-playing" : "stage-video"}
+                  ref={videoRef}
+                  src={activeProject.videoUrl}
+                  poster={activeProject.poster}
+                  controls={playing}
+                  preload="metadata"
+                  playsInline
+                  onSeeking={handleVideoSeeking}
+                  onSeeked={handleVideoSeeked}
+                  onEnded={() => setPlaying(false)}
+                  onPlay={() => setPlaying(true)}
+                  onPause={handleVideoPause}
+                  onError={() => setSaveMessage("当前视频暂时无法播放，请稍后重试或更换视频文件。")}
+                />
+              )}
+              {!playing && (
+                <img
+                  key={`poster-${activeIndex}-${activeProject.poster}`}
+                  className="stage-poster"
+                  src={activeProject.poster}
+                  alt={`${activeProject.title}作品首帧`}
+                  loading="lazy"
+                  fetchPriority="low"
+                  decoding="async"
+                />
+              )}
 
-            {(activeProject.videoUrl || canManageProjects) && (
-              <button className="play-button" type="button" onClick={togglePlay}>
-                {playing ? (
-                  <Pause size={15} fill="currentColor" aria-hidden="true" />
-                ) : (
-                  <Play size={15} fill="currentColor" aria-hidden="true" />
-                )}
-                {playing ? "PAUSE" : activeProject.videoUrl ? "PLAY" : "UPLOAD"}
-              </button>
-            )}
-            {canManageProjects && (
-              <button
-                className="float-icon"
-                type="button"
-                onClick={uploadVideo}
-                aria-label="上传作品视频"
-              >
-                <Upload size={21} aria-hidden="true" />
-              </button>
-            )}
+              {(activeProject.videoUrl || canManageProjects) && (
+                <button className="play-button" type="button" onClick={togglePlay}>
+                  {playing ? (
+                    <Pause size={15} fill="currentColor" aria-hidden="true" />
+                  ) : (
+                    <Play size={15} fill="currentColor" aria-hidden="true" />
+                  )}
+                  {playing ? "PAUSE" : activeProject.videoUrl ? "PLAY" : "UPLOAD"}
+                </button>
+              )}
+              {canManageProjects && (
+                <button
+                  className="float-icon"
+                  type="button"
+                  onClick={uploadVideo}
+                  aria-label="上传作品视频"
+                >
+                  <Upload size={21} aria-hidden="true" />
+                </button>
+              )}
           </div>
 
           <aside className="stage-info motion-card">
