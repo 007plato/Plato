@@ -962,6 +962,12 @@ video {
     transform: translate(-50%, -50%) scale(1);
   }
 
+  .stage-media.is-playing .play-button {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+
 }
 
 .float-icon {

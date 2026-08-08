@@ -127,7 +127,7 @@ const jobs = [
 
 const initialProjects = [
   {
-    title: "海贼王 01",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-01.jpg",
     videoUrl: "/assets/videos/web/project-01-海贼王-1280x720.web.mp4",
@@ -138,7 +138,7 @@ const initialProjects = [
     desc: "围绕角色卖点和节奏记忆点制作高转化视频素材，支撑重点地区投放。"
   },
   {
-    title: "海贼王 02",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-02.jpg",
     videoUrl: "/assets/videos/web/project-02-海贼王-1280x720.web.mp4",
@@ -146,10 +146,10 @@ const initialProjects = [
     mediaHeight: 720,
     orientation: "wide",
     tag: "CREATIVE / MOTION",
-    desc: "围绕活动节点、角色卖点与投放节奏制作横版视频素材，适配海外买量场景。"
+    desc: "使用热点角色作为钩子，吸引用户，展示角色和福利，加战斗展示游戏玩法，增加游戏的可玩性"
   },
   {
-    title: "海贼王 03",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-03.jpg",
     videoUrl: "/assets/videos/web/project-03-海贼王-1280x720.web.mp4",
@@ -160,7 +160,7 @@ const initialProjects = [
     desc: "AI生成画面，以角色展示、视觉包装和节奏剪辑形成清晰卖点，服务素材测试与投放迭代。"
   },
   {
-    title: "海贼王 04",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-04.jpg",
     videoUrl: "/assets/videos/web/project-04-海贼王-1280x720.web.mp4",
@@ -171,7 +171,7 @@ const initialProjects = [
     desc: "通过镜头节奏、信息层级和视觉冲击力，强化素材在短时间内的吸引力。"
   },
   {
-    title: "海贼王 05",
+    title: "海贼王",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-05.jpg",
     videoUrl: "/assets/videos/web/project-05-海贼王-1280x720.web.mp4",
@@ -182,7 +182,7 @@ const initialProjects = [
     desc: "围绕点击、完播和转化数据持续调整镜头、节奏、文案与素材结构。"
   },
   {
-    title: "海贼王 06",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-06.jpg",
     videoUrl: "/assets/videos/web/project-06-海贼王-1280x720.web.mp4",
@@ -190,10 +190,10 @@ const initialProjects = [
     mediaHeight: 720,
     orientation: "wide",
     tag: "MOTION DESIGN",
-    desc: "结合角色素材、场景包装和节奏化剪辑，形成适合投放测试的视频版本。"
+    desc: "结合AI角色素材、场景包装和节奏化剪辑，形成适合投放测试的视频版本。"
   },
   {
-    title: "海贼王 07",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-07.jpg",
     videoUrl: "/assets/videos/web/project-07-海贼王-1280x720.web.mp4",
@@ -201,10 +201,10 @@ const initialProjects = [
     mediaHeight: 720,
     orientation: "wide",
     tag: "AD CREATIVE",
-    desc: "从画面吸引、卖点表达和收口转化三个层面组织视频内容。"
+    desc: "从热门角色展示作为画面吸引、卖点表达和收口转化三个层面组织视频内容。"
   },
   {
-    title: "海贼王 08",
+    title: "海贼王 ",
     type: "海外买量创意系列",
     poster: "/assets/video-posters/project-08.jpg",
     videoUrl: "/assets/videos/web/project-08-海贼王-1280x720.web.mp4",
@@ -215,7 +215,7 @@ const initialProjects = [
     desc: "面向海外投放语境进行包装和节奏处理，提升素材辨识度与转化表现。"
   },
   {
-    title: "重返未来 1999 01",
+    title: "重返未来 1999 ",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-09.jpg",
     videoUrl: "/assets/videos/web/project-09-重返未来1999-1280x720.web.mp4",
@@ -226,7 +226,7 @@ const initialProjects = [
     desc: "围绕二次元美术气质与游戏内容卖点，制作具备节奏记忆点的视频素材。"
   },
   {
-    title: "重返未来 1999 02",
+    title: "重返未来 1999 ",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-10.jpg",
     videoUrl: "/assets/videos/web/project-10-重返未来1999-1280x720.web.mp4",
@@ -237,7 +237,7 @@ const initialProjects = [
     desc: "以视觉氛围、角色亮点和广告节奏构建完整的视频表达。"
   },
   {
-    title: "重返未来 1999 03",
+    title: "重返未来 1999 ",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-11.jpg",
     videoUrl: "/assets/videos/web/project-11-重返未来1999-1280x720.web.mp4",
@@ -248,7 +248,7 @@ const initialProjects = [
     desc: "快速产出多版本创意方向，用画面结构和节奏差异支撑投放测试。"
   },
   {
-    title: "重返未来 1999 04",
+    title: "重返未来 1999 ",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-12.jpg",
     videoUrl: "/assets/videos/web/project-12-重返未来1999-1280x720.web.mp4",
@@ -259,7 +259,7 @@ const initialProjects = [
     desc: "延续项目视觉语言，并将角色、信息和镜头节奏整合为广告素材。"
   },
   {
-    title: "重返未来 1999 05",
+    title: "重返未来 1999 ",
     type: "二次元游戏广告",
     poster: "/assets/video-posters/project-13-重返未来-1999-05-20260807085855182-rn8rpx.jpg",
     videoUrl: "/assets/videos/web/project-13-重返未来-1999-05-20260807085854167-cjbxce.web.mp4",
@@ -270,7 +270,7 @@ const initialProjects = [
     desc: "在保持美术调性的同时，突出素材首秒吸引力和投放转化效率。"
   },
   {
-    title: "女神异闻录 01",
+    title: "女神异闻录 ",
     type: "游戏视频广告",
     poster: "/assets/video-posters/project-14.jpg",
     videoUrl: "/assets/videos/web/project-14-女神异闻录-1280x720.web.mp4",
@@ -281,7 +281,7 @@ const initialProjects = [
     desc: "结合项目题材、角色气质与广告节奏，制作适合投放场景的视频素材。"
   },
   {
-    title: "女神异闻录 02",
+    title: "女神异闻录 ",
     type: "游戏视频广告",
     poster: "/assets/video-posters/project-15.jpg",
     videoUrl: "/assets/videos/web/project-15-女神异闻录-1280x720.web.mp4",
@@ -1166,6 +1166,8 @@ function Projects() {
         <div className="project-stage motion-card">
           <div
             className={`${getProjectMediaClass(activeProject)} ${
+              playing ? "is-playing" : ""
+            } ${
               playButtonVisible ? "show-play-button" : ""
             }`}
             style={activeMediaStyle}

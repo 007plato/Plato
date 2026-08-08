@@ -70,7 +70,7 @@
   "record.deliveryValue": "120",
   "record.deliveryUnit": "%",
   "record.deliveryLabel": "平均月出交付率 / DELIVERY RATE",
-  "record.spendValue": "8W",
+  "record.spendValue": "10W",
   "record.spendUnit": "USD",
   "record.spendLabel": "每月平均消耗 / MONTHLY SPEND",
   "record.rankingValue": "TOP",
