@@ -31,10 +31,11 @@ const PROJECT_FRAME_HEIGHT = 720;
 const IS_EDIT_MODE = new URLSearchParams(window.location.search).get("edit") === "1";
 const VIDEO_CDN_BASE_URL =
   "https://mingtu-video-cdn-1465459783.cos.ap-guangzhou.myqcloud.com";
+const VIDEO_ASSET_PREFIX = "/assets/videos/web/";
 
 function resolveVideoUrl(videoUrl) {
-  if (!videoUrl || !videoUrl.startsWith("/assets/videos/web/")) return videoUrl;
-  return `${VIDEO_CDN_BASE_URL}${videoUrl}`;
+  if (!videoUrl || !videoUrl.startsWith(VIDEO_ASSET_PREFIX)) return videoUrl;
+  return `${VIDEO_CDN_BASE_URL}/${videoUrl.slice(VIDEO_ASSET_PREFIX.length)}`;
 }
 
 function editableValue(editKey, fallback) {
